@@ -66,6 +66,7 @@ class ScenePlay(SceneManager.Scene):
         self.deathCount = 0
 
         # Tell the managers to reset themselves
+        self.oPlayer.reset()
         self.oVillagerMgr.reset()
         self.oGoblinMgr.reset()
 

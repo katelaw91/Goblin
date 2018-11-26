@@ -20,11 +20,13 @@ class Player():
         self.state = STAND
 
         #VEC(X,Y)
-        self.pos = VEC(WINDOW_WIDTH/2, WINDOW_HEIGHT + 10)
+        self.pos = VEC(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
         self.vel = VEC(0,0)
         self.acc = VEC(0,0)
-        self.x = self.pos.x
-        self.y = self.pos.y
+
+    def reset(self):
+        self.rect.center = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+        self.state = STAND
 
     def update(self):
         self.acc = VEC(0, PLAYER_GRAVITY)  # calculate acceleration
@@ -35,18 +37,20 @@ class Player():
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
         #do not pass sides of screen
-        if self.pos.x > WINDOW_WIDTH:
+        '''if self.pos.x > WINDOW_WIDTH:
             self.pos.x = WINDOW_WIDTH
         if self.pos.x < 0:
-            self.pos.x = 0
+            self.pos.x = 0'''
+        if self.pos.y > WINDOW_HEIGHT:
+            self.pos.y = WINDOW_HEIGHT + 10
 
-        theRect = pygame.Rect(self.pos.x, self.pos.y, self.height, self.width)
+        self.theRect = pygame.Rect(self.pos.x, self.pos.y, self.height, self.width)
         return self.rect
 
     def draw(self):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
 
-    def setFrame(self, key_input):
+    def setFrame(self, keys):
         if self.state == STAND:
             self.standing(keys)
         elif self.state == WALK:
