@@ -2,10 +2,9 @@
 import pygame
 from Constants import *
 
-class Player(pygame.sprite.Sprite):
+class Player():
     def __init__(self, window):
         self.window = window
-        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('images/goblin_R1.png')
         self.rect = self.image.get_rect()
         self.rect.center = (WINDOW_WIDTH /2, WINDOW_HEIGHT/ 2)  # set player to center of screen
@@ -24,6 +23,8 @@ class Player(pygame.sprite.Sprite):
         self.pos = VEC(WINDOW_WIDTH/2, WINDOW_HEIGHT + 10)
         self.vel = VEC(0,0)
         self.acc = VEC(0,0)
+        self.x = self.pos.x
+        self.y = self.pos.y
 
     def update(self):
         self.acc = VEC(0, PLAYER_GRAVITY)  # calculate acceleration
@@ -46,12 +47,6 @@ class Player(pygame.sprite.Sprite):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
 
     def setFrame(self, key_input):
-        pass
-
-    def getFrame(self):
-        return self.currentFrame
-
-    def setPos(self, keys):
         if self.state == STAND:
             self.standing(keys)
         elif self.state == WALK:
@@ -63,6 +58,14 @@ class Player(pygame.sprite.Sprite):
         elif self.state == DEATH:
             self.dying(keys)
 
+    def getFrame(self):
+        return self.currentFrame
+
+    def setPos(self, collision, x,y):
+        self.collision = collision
+        if collision == True:
+            self.pos = (x,y)
+
     def getPos(self, xOrY):
         if xOrY == 'y':
             return self.rect.centery
@@ -72,6 +75,7 @@ class Player(pygame.sprite.Sprite):
             return self.rect.midbottom
 
     def setVel(self, collision):
+        self.collision = collision
         if collision == True:
             self.vel.y = VEC(0, 0)
 
@@ -93,7 +97,7 @@ class Player(pygame.sprite.Sprite):
             self.walking(keys)
         if keys[pygame.K_RIGHT]:
             self.walking(keys)
-        if collide:
+        if collision:
             if keys[pygame.K_RETURN]:
                 self.interact = True
 

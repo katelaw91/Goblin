@@ -40,12 +40,17 @@ class ScenePlay(SceneManager.Scene):
 
         #instantiate collision platforms
         self.collision_map = pygame.Surface((WINDOW_WIDTH,WINDOW_HEIGHT))
-        self.HIT = BLACK
-        self.MISS = WHITE
         self.collision_map.blit(pygame.image.load(IMAGE_COLLISION_MAP), (0,-320))
-
+        self.ground = pygame.draw.line(self.collision_map,BLACK,(0,WINDOW_HEIGHT), (WINDOW_WIDTH,WINDOW_HEIGHT))
 
         self.collision = False
+        self.HIT = BLACK
+        self.posX = self.oPlayer.getPos('x')
+        self.posY = self.oPlayer.getPos('y')
+        self.velY = self.oPlayer.getVel('y')
+        self.pos = self.oPlayer.getPos('z')
+
+
 
     def enter(self, data):  # no data passed in
         pygame.mixer.music.stop()
@@ -75,7 +80,7 @@ class ScenePlay(SceneManager.Scene):
         #add keybinding here
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
-            self.oPlayer.setpos(keys)
+            self.oPlayer.setPos(keys, self.posX, self.posY)
         if keys[pygame.K_SPACE]:
             self.oPlayer.setFrame(keys)
 
@@ -85,17 +90,18 @@ class ScenePlay(SceneManager.Scene):
     def update(self):
         if self.playing:
             playerRect = self.oPlayer.update()  # move the player
-            self.posX = self.oPlayer.getPos('x')
-            self.posY = self.oPlayer.getPos('y')
-            self.pos = self.oPlayer.getPos('z')
+
+
             #determine collision based on pixel color from collision map
             self.color = self.collision_map.get_at(self.pos)
-            for pixel in range(self.posY, WINDOW_HEIGHT):
-                if self.color == self.HIT:
-                    self.collision = True
-                    self.oPlayer.setVel(collision)
-                    break
 
+            for check_pixel in range(self.posY, self.posY + int(self.velY)):
+                color = self.collision_map.get_at((self.posX, check_pixel))
+                if color == self.HIT:
+                    self.collision = True
+                    print("Colliding with pixel at (", self.posX, ',', check_pixel, ')')
+                    self.oPlayer.setPos(self.collision, self.posX, check_pixel)
+                    break
 
             # Tell the Baddie mgr to move all the baddies
             # It returns the number of baddies that fell off the bottom
