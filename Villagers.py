@@ -30,11 +30,11 @@ class Villager():
     def draw(self):
         self.window.blit(self.image, self.rect)
 
-    def collidesWith(self, playerRect):
+    '''def collidesWith(self, playerRect):
         if self.rect.colliderect(playerRect):
             return True
         else:
-            return False
+            return False'''
 
 
 # VILLAGERMGR
@@ -76,9 +76,9 @@ class VillagerMgr():
         for villager in self.villagersList:
             villager.draw()
 
-    def hasPlayerHitVillager(self, playerRect):
+    '''def hasPlayerHitVillager(self, playerRect):
         for villager in self.villagersList:
             if villager.collidesWith(playerRect):
                 return True
 
-        return False
+        return False'''

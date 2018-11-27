@@ -38,19 +38,6 @@ class ScenePlay(SceneManager.Scene):
         self.deathCount = 0
         self.backgroundMusic = True
 
-        #instantiate collision platforms
-        self.collision_map = pygame.Surface((WINDOW_WIDTH,WINDOW_HEIGHT))
-        self.collision_map.blit(pygame.image.load(IMAGE_COLLISION_MAP), (0,-320))
-        self.ground = pygame.draw.line(self.collision_map,BLACK,(0,WINDOW_HEIGHT), (WINDOW_WIDTH,WINDOW_HEIGHT))
-
-        self.collision = False
-        self.HIT = BLACK
-        self.posX = self.oPlayer.getPos('x')
-        self.posY = self.oPlayer.getPos('y')
-        self.velY = self.oPlayer.getVel('y')
-        self.pos = self.oPlayer.getPos('z')
-
-
 
     def enter(self, data):  # no data passed in
         pygame.mixer.music.stop()
@@ -76,33 +63,12 @@ class ScenePlay(SceneManager.Scene):
 
 
     def handleInputs(self, eventsList, keyPressedList):
-        for event in eventsList:
-            pass
-        #add keybinding here
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
-            self.oPlayer.setPos(keys, self.posX, self.posY)
-        if keys[pygame.K_SPACE]:
-            self.oPlayer.setFrame(keys)
-
-
-
+        self.oPlayer.handleInputs(eventsList, keyPressedList)
 
     def update(self):
         if self.playing:
             playerRect = self.oPlayer.update()  # move the player
 
-
-            #determine collision based on pixel color from collision map
-            self.color = self.collision_map.get_at(self.pos)
-
-            for check_pixel in range(self.posY, self.posY + int(self.velY)):
-                color = self.collision_map.get_at((self.posX, check_pixel))
-                if color == self.HIT:
-                    self.collision = True
-                    print("Colliding with pixel at (", self.posX, ',', check_pixel, ')')
-                    self.oPlayer.setPos(self.collision, self.posX, check_pixel)
-                    break
 
             # Tell the Baddie mgr to move all the baddies
             # It returns the number of baddies that fell off the bottom
@@ -112,7 +78,7 @@ class ScenePlay(SceneManager.Scene):
             # Tell the Goodie mgr to move any goodies
             self.oGoblinMgr.update()
 
-            # Check if the player has hit any of the goodies
+            '''# Check if the player has hit any of the goodies
             #print('In ScenePlay, self.oPlayer', self.oPlayer)
             if self.oGoblinMgr.hasPlayerHitGoblin(self.oPlayer):
                 pass
@@ -121,7 +87,7 @@ class ScenePlay(SceneManager.Scene):
             # Check if the player has hit any of the baddies
             if self.oVillagerMgr.hasPlayerHitVillager(playerRect):
                 pass
-                #update Player about collision so it can attack
+                #update Player about collision so it can attack'''
     
     def draw(self):
         # Draw everything
