@@ -66,23 +66,28 @@ class Player():
         # determine collision based on pixel color from collision map
         if ((self.pos.y + 1) < WINDOW_HEIGHT):
             self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(self.pos.y + 1)))
+            print('color down value', self.color_DOWN)
 
         if ((self.pos.x +1) < WINDOW_WIDTH) and (self.pos.y < WINDOW_HEIGHT):
             self.color_RIGHT = self.collision_map.get_at((int(self.pos.x + 1), int(self.pos.y)))
-
+            print('color right value', self.color_RIGHT)
         if ((self.pos.x -1) > 0) and (self.pos.y < WINDOW_HEIGHT):
             self.color_LEFT = self.collision_map.get_at((int(self.pos.x - 1), int(self.pos.y)))
+            print('color left value', self.color_LEFT)
 
-
-        if self.color_DOWN == BLACK:
+        if self.color_DOWN == HIT:
             self.collide_DOWN = True
             print("Collision beneath")
-        if self.color_RIGHT == BLACK:
+        if self.color_RIGHT == HIT:
             self.collide_RIGHT = True
             print("Collision to the right")
-        if self.color_LEFT == BLACK:
+        if self.color_LEFT == HIT:
             self.collide_LEFT = True
             print("Collision to the left")
+
+        if self.collide_DOWN:
+            self.pos.y = self.pos.y
+            self.vel.y = 0
 
         '''self.Rect = pygame.Rect(self.pos.x, self.pos.y, self.height, self.width)
         return self.Rect'''

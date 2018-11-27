@@ -67,7 +67,7 @@ class ScenePlay(SceneManager.Scene):
 
     def update(self):
         if self.playing:
-            playerRect = self.oPlayer.update()  # move the player
+            self.playerRect = self.oPlayer.update()  # move the player
 
 
             # Tell the Baddie mgr to move all the baddies
