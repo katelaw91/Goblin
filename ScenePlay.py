@@ -28,7 +28,8 @@ class ScenePlay(SceneManager.Scene):
         # Save window and sceneKey in instance variables
         self.window = window
         self.sceneKey = sceneKey
-        self.playBackground = pygwidgets.Image(self.window, (0, -320), IMAGE_LEVEL_1)
+        self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_1)
+        #y -320
 
         #instantiate objects
         self.oVillagerMgr = VillagerMgr(self.window)

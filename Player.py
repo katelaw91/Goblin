@@ -7,7 +7,7 @@ class Player():
         self.window = window
         self.image = pygame.image.load('images/goblin_R1.png')
         self.rect = self.image.get_rect()
-        self.rect.center = (50, WINDOW_HEIGHT + 50)  # set player to starting position
+        #self.rect.center = (20, WINDOW_HEIGHT + 100)  # set player to starting position
         self.height = self.rect.height
         self.halfHeight = self.height / 2
         self.width = self.rect.width
@@ -20,22 +20,25 @@ class Player():
         self.state = WALKLEFT
 
         #VEC(X,Y)
-        self.pos = VEC(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+        self.pos = VEC(240, WINDOW_HEIGHT/2)
         self.vel = VEC(0,0)
         self.acc = VEC(0,0)
 
         # instantiate collision platforms
-        self.collision_map = pygame.Surface((540, 960))
-        self.collision_map.blit(pygame.image.load(IMAGE_COLLISION_MAP), (0, 0))
-        self.ground = pygame.draw.line(self.collision_map, BLACK, (0, WINDOW_HEIGHT), (WINDOW_WIDTH, WINDOW_HEIGHT))
+        #self.collision_map = pygame.Surface((540, 960))
+        #self.collision_map.blit(pygame.image.load(IMAGE_COLLISION_MAP), (0, 0))
+        print("loading collision_map")
+        self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
+        print("loaded collision_map")
+        #self.ground = pygame.draw.line(self.collision_map, (0, 0, 0, 255), (0, WINDOW_HEIGHT), (WINDOW_WIDTH, WINDOW_HEIGHT))
 
         self.collide_DOWN = False
         self.collide_RIGHT = False
         self.collide_LEFT = False
 
-        self.color_DOWN = WHITE
-        self.color_LEFT = WHITE
-        self.color_RIGHT = WHITE
+        self.color_DOWN = TEAL
+        self.color_LEFT = TEAL
+        self.color_RIGHT = TEAL
 
 
     def reset(self):
@@ -44,50 +47,46 @@ class Player():
 
 
     def update(self):
-        self.acc = VEC(0, PLAYER_GRAVITY)  # calculate acceleration
+        self.collide_DOWN = False
 
        # motion
         self.acc.x += self.vel.x * PLAYER_FRICTION  # apply friction
         self.vel += self.acc  # calculate velocity
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
-        '''#do not pass sides of screen
-        if self.pos.x > WINDOW_WIDTH:
-            self.pos.x = WINDOW_WIDTH
-        if self.pos.x < 0:
-            self.pos.x = 0'''
-
-        '''#do not fall off screen
-        if self.pos.y > WINDOW_HEIGHT - self.height:
-            self.pos.y = WINDOW_HEIGHT - self.height + 1
-            self.vel.y = 0
-            self.state = WALKLEFT'''
-
         # determine collision based on pixel color from collision map
-        if ((self.pos.y + 1) < WINDOW_HEIGHT):
-            self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(self.pos.y + 1)))
-            print('color down value', self.color_DOWN)
+        #if ((self.pos.y + 1) < WINDOW_HEIGHT):
+        self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(self.pos.y + 1 + self.height)))
+        #print('color down value', self.color_DOWN)
 
-        if ((self.pos.x +1) < WINDOW_WIDTH) and (self.pos.y < WINDOW_HEIGHT):
-            self.color_RIGHT = self.collision_map.get_at((int(self.pos.x + 1), int(self.pos.y)))
-            print('color right value', self.color_RIGHT)
-        if ((self.pos.x -1) > 0) and (self.pos.y < WINDOW_HEIGHT):
-            self.color_LEFT = self.collision_map.get_at((int(self.pos.x - 1), int(self.pos.y)))
-            print('color left value', self.color_LEFT)
+        self.color_RIGHT = self.collision_map.get_at((int(self.pos.x + 1), int(self.pos.y + self.height)))
+        #print('color right value', self.color_RIGHT)
+
+        self.color_LEFT = self.collision_map.get_at((int(self.pos.x - 1), int(self.pos.y + self.height)))
+        #print('color left value', self.color_LEFT)
 
         if self.color_DOWN == HIT:
             self.collide_DOWN = True
-            print("Collision beneath")
+            #print("x pos: ", self.pos.x)
+            #print("y pos: ", self.pos.y)
+            #print("Collision beneath")
         if self.color_RIGHT == HIT:
             self.collide_RIGHT = True
-            print("Collision to the right")
+            #print("x pos: ", self.pos.x)
+            #print("y pos: ", self.pos.y)
+            #print("Collision to the right")
         if self.color_LEFT == HIT:
             self.collide_LEFT = True
-            print("Collision to the left")
+            #print("x pos: ", self.pos.x)
+            #print("y pos: ", self.pos.y)
+            #print("Collision to the left")
 
         if self.collide_DOWN:
-            self.pos.y = self.pos.y
+            self.pos.y = self.pos.y - 1
             self.vel.y = 0
+
+        else:
+            self.acc = VEC(0,PLAYER_GRAVITY)
 
         '''self.Rect = pygame.Rect(self.pos.x, self.pos.y, self.height, self.width)
         return self.Rect'''
@@ -98,13 +97,11 @@ class Player():
 
         if keyPressedList[pygame.K_LEFT]:
             print('Pressing Left')
-            if not self.collide_LEFT:
-                self.acc.x = -PLAYER_ACC
+            self.acc.x = -PLAYER_ACC
             self.state = WALKLEFT
         if keyPressedList[pygame.K_RIGHT]:
             print('Pressing Right')
-            if not self.collide_RIGHT:
-                self.acc.x = PLAYER_ACC
+            self.acc.x = PLAYER_ACC
             self.state = WALKRIGHT
 
         for event in eventsList:
