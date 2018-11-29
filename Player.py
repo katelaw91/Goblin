@@ -7,7 +7,6 @@ class Player():
         self.window = window
         self.image = pygame.image.load('images/goblin_R1.png')
         self.rect = self.image.get_rect()
-        self.rect.center = (WINDOW_WIDTH /2, WINDOW_HEIGHT/ 2)  # set player to center of screen
         self.height = self.rect.height
         self.halfHeight = self.height / 2
         self.width = self.rect.width
@@ -17,58 +16,91 @@ class Player():
         self.maxY = GAME_HEIGHT - self.rect.height
 
         self.currentFrame = 0  # up to number of frames in an animation
-        self.state = STAND
+        self.state = WALKLEFT
 
         #VEC(X,Y)
-        self.pos = VEC(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+        self.pos = VEC(240, WINDOW_HEIGHT/2)
         self.vel = VEC(0,0)
         self.acc = VEC(0,0)
 
+        # instantiate collision platforms
+        self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
+
+        self.collide_DOWN = False
+        self.collide_RIGHT = False
+        self.collide_LEFT = False
+
+        self.color_DOWN = TEAL
+        self.color_LEFT = TEAL
+        self.color_RIGHT = TEAL
+
+
     def reset(self):
-        self.rect.center = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
-        self.state = STAND
+        self.rect.center = (50, WINDOW_HEIGHT + 50)
+        self.state = WALKLEFT
+
 
     def update(self):
-        self.acc = VEC(0, PLAYER_GRAVITY)  # calculate acceleration
 
        # motion
         self.acc.x += self.vel.x * PLAYER_FRICTION  # apply friction
         self.vel += self.acc  # calculate velocity
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
-        #do not pass sides of screen
-        '''if self.pos.x > WINDOW_WIDTH:
-            self.pos.x = WINDOW_WIDTH
-        if self.pos.x < 0:
-            self.pos.x = 0'''
-        if self.pos.y > WINDOW_HEIGHT:
-            self.pos.y = WINDOW_HEIGHT + 10
+        # determine collision based on pixel color from collision map
+        for pixel in range(int(self.pos.y), int(self.pos.y + self.height + 1)):
+            self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel)))
+            if self.color_DOWN == HIT and self.vel.y > 0:
+                self.vel.y = 0
+                self.pos.y = pixel - self.height - 1
+                break
+            else:
+                self.acc = VEC(0,PLAYER_GRAVITY)
 
-        self.theRect = pygame.Rect(self.pos.x, self.pos.y, self.height, self.width)
-        return self.rect
+
+
+    def handleInputs(self, eventsList, keyPressedList):
+        self.eventsList = eventsList
+        self.keyPressedList = keyPressedList
+
+        if keyPressedList[pygame.K_LEFT]:
+            print('Pressing Left')
+            self.acc.x = -PLAYER_ACC
+            self.state = WALKLEFT
+        if keyPressedList[pygame.K_RIGHT]:
+            print('Pressing Right')
+            self.acc.x = PLAYER_ACC
+            self.state = WALKRIGHT
+
+        for event in eventsList:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    print('Keydown Space')
+                    print('vel: ', self.vel.y)
+                    if not self.jumping():
+                        self.state = JUMP
+                        self.jumping()
 
     def draw(self):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
 
     def setFrame(self, keys):
-        if self.state == STAND:
-            self.standing(keys)
-        elif self.state == WALK:
-            self.walking(keys)
+        if self.state == WALKLEFT:
+            #set animation for walkleft
+            self.currentFrame = 0
+        if self.state == WALKRIGHT:
+            #set animation for walkright
+            self.currentFrame = 0
         elif self.state == JUMP:
-            self.jumping(keys)
-        elif self.state == FALL:
-            self.falling(keys)
+            self.jumping()
+            self.currentFrame = 0
         elif self.state == DEATH:
-            self.dying(keys)
+            #play animation and sounds
+            #return state so scenemgr can play gameover screen
+            pass
 
     def getFrame(self):
         return self.currentFrame
-
-    def setPos(self, collision, x,y):
-        self.collision = collision
-        if collision == True:
-            self.pos = (x,y)
 
     def getPos(self, xOrY):
         if xOrY == 'y':
@@ -78,11 +110,6 @@ class Player():
         else:
             return self.rect.midbottom
 
-    def setVel(self, collision):
-        self.collision = collision
-        if collision == True:
-            self.vel.y = VEC(0, 0)
-
     def getVel(self, xOrY):
         if xOrY == 'y':
             return self.vel.y
@@ -91,30 +118,18 @@ class Player():
         else:
             return self.vel
 
-    def standing(self, keys):
-        self.interact = False
-        self.frame_index = 0
-        self.vel = VEC(0,0)
-        self.acc = VEC(0,0)
+    def walking(self,direction):
+        self.direction = direction
+        if direction == 'R':
+            #insert frames for R
+            pass
+        elif direction == 'L':
+            #insert frames for L
+            pass
 
-        if keys[pygame.K_LEFT]:
-            self.walking(keys)
-        if keys[pygame.K_RIGHT]:
-            self.walking(keys)
-        if collision:
-            if keys[pygame.K_RETURN]:
-                self.interact = True
+    def jumping(self):
+        self.vel.y = -PLAYER_JUMP
 
-    def walking(self,keys):
-        if keys[pygame.K_LEFT]:
-            self.acc.x = -PLAYER_ACC
-        if keys[pygame.K_RIGHT]:
-            self.acc.x = PLAYER_ACC
-
-    def jumping(self,keys):
-        if not collide:
-            if keys[pygame.K_SPACE]:
-                self.vel.y = -PLAYER_JUMP
     def falling(self,keys):
         pass
 

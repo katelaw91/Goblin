@@ -1,0 +1,6 @@
+
+*.xml
+.idea/workspace.xml
+__pycache__/ScenePlay.cpython-37.pyc
+*.pyc
+*.pyc
