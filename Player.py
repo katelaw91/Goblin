@@ -7,7 +7,6 @@ class Player():
         self.window = window
         self.image = pygame.image.load('images/goblin_R1.png')
         self.rect = self.image.get_rect()
-        #self.rect.center = (20, WINDOW_HEIGHT + 100)  # set player to starting position
         self.height = self.rect.height
         self.halfHeight = self.height / 2
         self.width = self.rect.width
@@ -25,12 +24,7 @@ class Player():
         self.acc = VEC(0,0)
 
         # instantiate collision platforms
-        #self.collision_map = pygame.Surface((540, 960))
-        #self.collision_map.blit(pygame.image.load(IMAGE_COLLISION_MAP), (0, 0))
-        print("loading collision_map")
         self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
-        print("loaded collision_map")
-        #self.ground = pygame.draw.line(self.collision_map, (0, 0, 0, 255), (0, WINDOW_HEIGHT), (WINDOW_WIDTH, WINDOW_HEIGHT))
 
         self.collide_DOWN = False
         self.collide_RIGHT = False
@@ -47,7 +41,6 @@ class Player():
 
 
     def update(self):
-        self.collide_DOWN = False
 
        # motion
         self.acc.x += self.vel.x * PLAYER_FRICTION  # apply friction
@@ -55,41 +48,16 @@ class Player():
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
         # determine collision based on pixel color from collision map
-        #if ((self.pos.y + 1) < WINDOW_HEIGHT):
-        self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(self.pos.y + 1 + self.height)))
-        #print('color down value', self.color_DOWN)
+        for pixel in range(int(self.pos.y), int(self.pos.y + self.height + 1)):
+            self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel)))
+            if self.color_DOWN == HIT and self.vel.y > 0:
+                self.vel.y = 0
+                self.pos.y = pixel - self.height - 1
+                break
+            else:
+                self.acc = VEC(0,PLAYER_GRAVITY)
 
-        self.color_RIGHT = self.collision_map.get_at((int(self.pos.x + 1), int(self.pos.y + self.height)))
-        #print('color right value', self.color_RIGHT)
 
-        self.color_LEFT = self.collision_map.get_at((int(self.pos.x - 1), int(self.pos.y + self.height)))
-        #print('color left value', self.color_LEFT)
-
-        if self.color_DOWN == HIT:
-            self.collide_DOWN = True
-            #print("x pos: ", self.pos.x)
-            #print("y pos: ", self.pos.y)
-            #print("Collision beneath")
-        if self.color_RIGHT == HIT:
-            self.collide_RIGHT = True
-            #print("x pos: ", self.pos.x)
-            #print("y pos: ", self.pos.y)
-            #print("Collision to the right")
-        if self.color_LEFT == HIT:
-            self.collide_LEFT = True
-            #print("x pos: ", self.pos.x)
-            #print("y pos: ", self.pos.y)
-            #print("Collision to the left")
-
-        if self.collide_DOWN:
-            self.pos.y = self.pos.y - 1
-            self.vel.y = 0
-
-        else:
-            self.acc = VEC(0,PLAYER_GRAVITY)
-
-        '''self.Rect = pygame.Rect(self.pos.x, self.pos.y, self.height, self.width)
-        return self.Rect'''
 
     def handleInputs(self, eventsList, keyPressedList):
         self.eventsList = eventsList
@@ -108,7 +76,8 @@ class Player():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     print('Keydown Space')
-                    if self.collide_DOWN:
+                    print('vel: ', self.vel.y)
+                    if not self.jumping():
                         self.state = JUMP
                         self.jumping()
 
@@ -133,14 +102,6 @@ class Player():
     def getFrame(self):
         return self.currentFrame
 
-    def setPos(self, collision, x,y):
-        self.collision = collision
-        self.x = x
-        self.y = y
-        if collision == True:
-            self.pos.x = self.x
-            self.pos.y = self.y
-
     def getPos(self, xOrY):
         if xOrY == 'y':
             return self.rect.centery
@@ -148,11 +109,6 @@ class Player():
             return self.rect.centerx
         else:
             return self.rect.midbottom
-
-    def setVel(self, collision):
-        self.collision = collision
-        if collision == True:
-            self.vel.y = 0
 
     def getVel(self, xOrY):
         if xOrY == 'y':
