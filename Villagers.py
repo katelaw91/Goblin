@@ -74,7 +74,7 @@ class VillagerMgr():
 
     def draw(self):
         for villager in self.villagersList:
-            villager.draw()
+            pass
 
     '''def hasPlayerHitVillager(self, playerRect):
         for villager in self.villagersList:
