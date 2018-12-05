@@ -16,6 +16,11 @@ class Goblin():
         self.halfWidth = self.width / 2
 
         self.currentFrame = 0  # up to number of frames in an animation
+        self.range = random.randrange(0,15)
+        self.pacing = 0
+        self.paceRight = 0
+        self.paceLeft = 100
+        self.randomPace = random.randrange(0,2)
         self.state = WALKLEFT
 
         # VEC(X,Y)
@@ -47,6 +52,23 @@ class Goblin():
         self.vel += self.acc  # calculate velocity
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
+
+
+        if self.paceRight <= (random.randrange(20,50)):
+            self.pos.x = self.pos.x + .8
+            self.paceRight = self.paceRight + 1
+            if self.paceRight >= 50:
+                self.paceLeft = 0
+
+        if self.paceLeft <= (random.randrange(20,50)):
+            self.pos.x = self.pos.x - .8
+            self.paceLeft = self.paceLeft - 1
+
+        if self.paceLeft <= -50:
+            self.paceRight = 0
+            self.paceLeft = 100
+
+
         # determine collision based on pixel color from collision map
         try:
             for pixel in range(int(self.pos.y + self.height), int((self.pos.y + self.height) + self.halfHeight + 1)):
@@ -77,7 +99,7 @@ class GoblinMgr():
         self.window = window
         self.goblinsList = []
 
-        self.oGoblin_Susie = Goblin(self.window, (50, 450), 'images/goblin_scarf_R1.png')
+        self.oGoblin_Susie = Goblin(self.window, (420, 310), 'images/goblin_scarf_R1.png')
         self.oGoblin_Bob = Goblin(self.window, (80,130),'images/goblin_purple_R1.png')
 
         self.goblinsList.append(self.oGoblin_Susie)
