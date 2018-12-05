@@ -11,6 +11,7 @@ class Player():
         self.halfHeight = self.height / 2
         self.width = self.rect.width
         self.halfWidth = self.width / 2
+        self.camera = 0
 
         self.maxX = WINDOW_WIDTH - self.rect.width
         self.maxY = GAME_HEIGHT - self.rect.height
@@ -60,6 +61,8 @@ class Player():
                 break
             else:
                 self.acc = VEC(0,PLAYER_GRAVITY)
+        return self.pos.y
+
 
 
     def handleInputs(self, eventsList, keyPressedList):
@@ -78,9 +81,7 @@ class Player():
         for event in eventsList:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    print('Keydown Space')
-                    print('vel: ', self.vel.y)
-                    if self.state != FALL:
+                    if self.collision == True:
                         self.state = JUMP
                         self.jumping()
                 elif event.key == pygame.K_RETURN:
@@ -131,7 +132,10 @@ class Player():
         return self.rect
 
     def panCam(self):
-        self.pos.y += abs(self.vel.y)
+        if self.pos.y <= WINDOW_HEIGHT/6:
+            print("Reached top 5/6 of screen")
+            self.pos.y += abs(self.vel.y)
+            self.camera = 300
 
     def walking(self,direction):
         self.direction = direction
@@ -144,7 +148,7 @@ class Player():
 
     def jumping(self):
         self.vel.y = -PLAYER_JUMP
-        self.state = FALL
+        self.collision = False
 
     def falling(self,keys):
         if self.vel.y != -PLAYER_JUMP:

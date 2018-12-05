@@ -70,9 +70,9 @@ class ScenePlay(SceneManager.Scene):
 
     def update(self):
         if self.playing:
-            self.player = self.oPlayer.update()  # move the player
+            self.playerRect = self.oPlayer.update()  # move the player
 
-            if self.player:
+            if self.playerRect:
             # Tell the Baddie mgr to move all the baddies
             # It returns the number of baddies that fell off the bottom
                 nDeaths = self.oVillagerMgr.update()
@@ -93,12 +93,14 @@ class ScenePlay(SceneManager.Scene):
                 pass
                 #update Player about collision so it can attack'''
 
-        self.playerRect = self.oPlayer.getRect()
-        if self.playerRect.top <= WINDOW_HEIGHT/4:
-            print('I REACHED 3/4')
+        #self.playerRect = self.oPlayer.getRect()
+        '''if self.playerRect <= WINDOW_HEIGHT/6:
+            print('SCENE MANAGER HAS POS')
             self.oPlayer.panCam()
-            self.playBackground = pygwidgets.Image(self.window, (0, OFFSET + 500), IMAGE_LEVEL_1)
-
+            self.playBackground = pygwidgets.Image(self.window, (0, OFFSET + 300), IMAGE_LEVEL_1)
+            #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
+            self.glow = pygwidgets.Image(self.window, (0, OFFSET + 300), GLOW)
+            self.oGoblinMgr.panCam()'''
 
 
 

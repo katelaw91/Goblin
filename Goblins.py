@@ -48,16 +48,18 @@ class Goblin():
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
         # determine collision based on pixel color from collision map
-        for pixel in range(int(self.pos.y + self.height), int((self.pos.y + self.height) + self.halfHeight + 1)):
-            self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel - OFFSET)))
-            if self.color_DOWN == HIT and self.vel.y > 0:
-                self.vel.y = 0
-                self.pos.y = pixel - self.height - 1
-                self.collision = True
-                break
-            else:
-                self.acc = VEC(0, PLAYER_GRAVITY)
-
+        try:
+            for pixel in range(int(self.pos.y + self.height), int((self.pos.y + self.height) + self.halfHeight + 1)):
+                self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel - OFFSET)))
+                if self.color_DOWN == HIT and self.vel.y > 0:
+                    self.vel.y = 0
+                    self.pos.y = pixel - self.height - 1
+                    self.collision = True
+                    break
+                else:
+                    self.acc = VEC(0, .5)
+        except:
+            self.acc = VEC(0,0)
     def draw(self):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
 
@@ -88,7 +90,9 @@ class GoblinMgr():
         for goblin in self.goblinsList:
             goblin.update()
 
-
+    def panCam(self):
+        for goblin in self.goblinsList:
+            goblin.pos.y = goblin.pos.y + 300
     def draw(self):
         for goblin in self.goblinsList:
             goblin.draw()

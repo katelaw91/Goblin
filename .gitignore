@@ -4,3 +4,9 @@
 __pycache__/ScenePlay.cpython-37.pyc
 *.pyc
 *.pyc
+.idea/workspace.xml
+__pycache__/Constants.cpython-37.pyc
+__pycache__/Goblins.cpython-37.pyc
+__pycache__/Player.cpython-37.pyc
+*.pyc
+Goblin Old/
