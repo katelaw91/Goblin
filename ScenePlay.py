@@ -94,16 +94,20 @@ class ScenePlay(SceneManager.Scene):
                 #update Player about collision so it can attack'''
 
         #self.playerRect = self.oPlayer.getRect()
-        '''if self.playerRect <= WINDOW_HEIGHT/6:
-            print('SCENE MANAGER HAS POS')
-            self.oPlayer.panCam()
-            self.playBackground = pygwidgets.Image(self.window, (0, OFFSET + 300), IMAGE_LEVEL_1)
+        if self.playerRect <= WINDOW_HEIGHT/4:
+            self.oPlayer.panCam('Up')
+            self.playBackground = pygwidgets.Image(self.window, (0, OFFSET + 350), IMAGE_LEVEL_1)
             #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
-            self.glow = pygwidgets.Image(self.window, (0, OFFSET + 300), GLOW)
-            self.oGoblinMgr.panCam()'''
+            self.glow = pygwidgets.Image(self.window, (0, OFFSET + 350), GLOW)
+            self.oGoblinMgr.panCam('Up')
 
 
-
+        if self.playerRect > WINDOW_HEIGHT:
+            self.oPlayer.panCam('Down')
+            self.playBackground = pygwidgets.Image(self.window, (0, OFFSET), IMAGE_LEVEL_1)
+            #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
+            self.glow = pygwidgets.Image(self.window, (0, OFFSET), GLOW)
+            self.oGoblinMgr.panCam('Down')
     
     def draw(self):
         # Draw everything

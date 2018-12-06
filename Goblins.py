@@ -39,6 +39,8 @@ class Goblin():
         self.color_LEFT = TEAL
         self.color_RIGHT = TEAL
 
+        self.camera = 0
+
         # Goblin Dictionary of Dictionaries
         '''self.susieDict = {'Location': ( 0, 0), 'Image': 'images/goblin_scarf_R1.png', 'Interact_1': "Hello World!", 'Interact_2': "That's it..."}
         self.bobDict = {'Location': ( 0, 0), 'Image': 'images/goblin_purple_R1.png', 'Interact_1': "I am Bob", 'Interact_2': "Scram guy..."}
@@ -72,7 +74,7 @@ class Goblin():
         # determine collision based on pixel color from collision map
         try:
             for pixel in range(int(self.pos.y + self.height), int((self.pos.y + self.height) + self.halfHeight + 1)):
-                self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel - OFFSET)))
+                self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel - OFFSET + self.camera)))
                 if self.color_DOWN == HIT and self.vel.y > 0:
                     self.vel.y = 0
                     self.pos.y = pixel - self.height - 1
@@ -82,6 +84,15 @@ class Goblin():
                     self.acc = VEC(0, .5)
         except:
             self.acc = VEC(0,0)
+
+    def panCam(self, direction):
+        self.direction = direction
+        if direction == 'Up':
+            self.collision_map.scroll(dx=0, dy=350)
+        else:
+            self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
+
+
     def draw(self):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
 
@@ -106,15 +117,28 @@ class GoblinMgr():
         self.goblinsList.append(self.oGoblin_Bob)
 
     def reset(self):  # Called when starting a new game
-        self.goblinsList = [self.oGoblin_Susie, self.oGoblin_Bob]
+        self.goblinsList = []
 
+        self.oGoblin_Susie = Goblin(self.window, (420, 310), 'images/goblin_scarf_R1.png')
+        self.oGoblin_Bob = Goblin(self.window, (80,130),'images/goblin_purple_R1.png')
+
+        self.goblinsList.append(self.oGoblin_Susie)
+        self.goblinsList.append(self.oGoblin_Bob)
     def update(self):
         for goblin in self.goblinsList:
             goblin.update()
 
-    def panCam(self):
-        for goblin in self.goblinsList:
-            goblin.pos.y = goblin.pos.y + 300
+    def panCam(self, direction):
+        self.direction = direction
+
+        if direction == 'Up':
+            for goblin in self.goblinsList:
+                goblin.pos.y = goblin.pos.y + 350
+                goblin.panCam('Up')
+        else:
+            for goblin in self.goblinsList:
+                goblin.panCam('Down')
+            self.reset()
     def draw(self):
         for goblin in self.goblinsList:
             goblin.draw()

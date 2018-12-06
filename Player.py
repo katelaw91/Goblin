@@ -12,6 +12,8 @@ class Player():
         self.width = self.rect.width
         self.halfWidth = self.width / 2
         self.camera = 0
+        self.level_bottom = True
+        self.level_top = False
 
         self.maxX = WINDOW_WIDTH - self.rect.width
         self.maxY = GAME_HEIGHT - self.rect.height
@@ -26,6 +28,7 @@ class Player():
 
         # instantiate collision platforms
         self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
+        #self.collision_map_rect = self.collision_map.get_rect()
 
         self.collide_DOWN = False
         self.collide_RIGHT = False
@@ -50,18 +53,29 @@ class Player():
         self.vel += self.acc  # calculate velocity
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
+        if self.pos.x >= WINDOW_WIDTH - self.width:
+            self.pos.x = WINDOW_WIDTH - self.width
+        if self.pos.x <= 0 + self.width/2:
+            self.pos.x = 0 + self.width/2
+        if (self.pos.y >= 538.675) and (self.level_bottom == True):
+            self.pos.y = 535
 
-        # determine collision based on pixel color from collision map
-        for pixel in range(int(self.pos.y + self.height), int((self.pos.y + self.height) + self.halfHeight + 1)):
-            self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel - OFFSET + self.camera)))
-            if self.color_DOWN == HIT and self.vel.y > 0:
-                self.vel.y = 0
-                self.pos.y = pixel - self.height - 1
-                self.collision = True
-                break
-            else:
-                self.acc = VEC(0,PLAYER_GRAVITY)
-        return self.pos.y
+        try:
+            # determine collision based on pixel color from collision map
+            for pixel in range(int(self.pos.y + self.height), int((self.pos.y + self.height) + self.halfHeight + 1)):
+                self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel - OFFSET + self.camera)))
+                if self.color_DOWN == HIT and self.vel.y > 0:
+                    self.vel.y = 0
+                    self.pos.y = pixel - self.height - 1
+                    self.collision = True
+                    break
+                else:
+                    self.acc = VEC(0,PLAYER_GRAVITY)
+            return self.pos.y
+        except:
+            self.acc = VEC(0,PLAYER_GRAVITY)
+            return self.pos.y
+
 
 
 
@@ -131,11 +145,28 @@ class Player():
     def getRect(self):
         return self.rect
 
-    def panCam(self):
-        if self.pos.y <= WINDOW_HEIGHT/6:
-            print("Reached top 5/6 of screen")
-            self.pos.y += abs(self.vel.y)
-            self.camera = 300
+    def panCam(self, direction):
+        self.direction = direction
+
+        if self.direction == 'Up':
+            if (self.pos.y <= WINDOW_HEIGHT/4) and (self.level_top == False):
+                print("Reached top of screen")
+                self.pos.y = WINDOW_HEIGHT - (WINDOW_HEIGHT/4)
+                #self.camera = 350
+                self.collision_map.scroll(dx=0, dy=350)
+                self.level_bottom = False
+                self.level_top = True
+            elif (self.pos.y <= WINDOW_HEIGHT/4) and (self.level_top == True):
+                pass
+        else:
+            if self.pos.y > WINDOW_HEIGHT:
+                print("Reached bottom of screen")
+                self.pos.y = WINDOW_HEIGHT/4
+                #self.camera = 350
+                self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
+                #self.collision_map.scroll(dx=0, dy=-350)
+                self.level_bottom = True
+                self.level_top = False
 
     def walking(self,direction):
         self.direction = direction
