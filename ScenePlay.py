@@ -67,25 +67,21 @@ class ScenePlay(SceneManager.Scene):
 
     def handleInputs(self, eventsList, keyPressedList):
         self.oPlayer.handleInputs(eventsList, keyPressedList)
+        self.oGoblinMgr.handleInputs(eventsList, keyPressedList)
 
     def update(self):
         if self.playing:
-            self.playerRect = self.oPlayer.update()  # move the player
+            self.playerY = self.oPlayer.update()  # move the player
+            self.oVillagerMgr.update()
+            self.oGoblinMgr.update()
 
-            if self.playerRect:
-            # Tell the Baddie mgr to move all the baddies
-            # It returns the number of baddies that fell off the bottom
-                nDeaths = self.oVillagerMgr.update()
-                self.deathCount = self.deathCount + nDeaths
-    
-                # Tell the Goodie mgr to move any goodies
-                self.oGoblinMgr.update()
+            self.playerRect = self.oPlayer.getRect()
 
-            # Check if the player has hit any of the goodies
-            #print('In ScenePlay, self.oPlayer', self.oPlayer)
-            if self.oGoblinMgr.hasPlayerHitGoblin(self.oPlayer):
-                self.oPlayer.interact(True)
+
+            # Check if the player collides with goblins
+            if self.oGoblinMgr.hasPlayerHitGoblin(self.playerRect):
                 pass
+
                 #update Player about collision so it can interact
 
             # Check if the player has hit any of the baddies
@@ -93,16 +89,19 @@ class ScenePlay(SceneManager.Scene):
                 pass
                 #update Player about collision so it can attack'''
 
-        #self.playerRect = self.oPlayer.getRect()
-        if self.playerRect <= WINDOW_HEIGHT/4:
+            #self.collision = self.oGoblinMgr.detectCollision(self.playerRect)
+
+
+        #PAN CAMERA UP
+        if self.playerY <= WINDOW_HEIGHT/4:
             self.oPlayer.panCam('Up')
             self.playBackground = pygwidgets.Image(self.window, (0, OFFSET + 350), IMAGE_LEVEL_1)
             #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
             self.glow = pygwidgets.Image(self.window, (0, OFFSET + 350), GLOW)
             self.oGoblinMgr.panCam('Up')
 
-
-        if self.playerRect > WINDOW_HEIGHT:
+        #PAN CAMERA DOWN
+        if self.playerY > WINDOW_HEIGHT:
             self.oPlayer.panCam('Down')
             self.playBackground = pygwidgets.Image(self.window, (0, OFFSET), IMAGE_LEVEL_1)
             #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)

@@ -1,19 +1,23 @@
 ### GOBLIN
 import pygame
 import random
+import pygwidgets
 from Constants import *
 
 class Goblin():
 
-    def __init__(self, window, pos, image):
+    def __init__(self, window, pos, image, text):
         # pass in position and walking direction for each NPC
         self.window = window
         self.image = pygame.image.load(image)
+        self.text = text
         self.rect = self.image.get_rect()
         self.height = self.rect.height
         self.halfHeight = self.height / 2
         self.width = self.rect.width
         self.halfWidth = self.width / 2
+        self.font_name = pygame.font.match_font(FONT_NAME)
+
 
         self.currentFrame = 0  # up to number of frames in an animation
         self.range = random.randrange(0,15)
@@ -28,6 +32,10 @@ class Goblin():
         self.vel = VEC(0, 0)
         self.acc = VEC(0, 0)
 
+        print(self.font_name)
+        self.textBox = pygwidgets.DisplayText(window,(self.pos.x - 3,self.pos.y - 3),"",fontName=self.font_name,\
+                                              fontSize=16, textColor = WHITE)
+
         # instantiate collision platforms
         self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
 
@@ -40,6 +48,7 @@ class Goblin():
         self.color_RIGHT = TEAL
 
         self.camera = 0
+        self.interact = False
 
         # Goblin Dictionary of Dictionaries
         '''self.susieDict = {'Location': ( 0, 0), 'Image': 'images/goblin_scarf_R1.png', 'Interact_1': "Hello World!", 'Interact_2': "That's it..."}
@@ -85,6 +94,24 @@ class Goblin():
         except:
             self.acc = VEC(0,0)
 
+        self.rect.left = self.pos.x
+        self.rect.top = self.pos.y
+
+
+
+
+    def handleInputs(self, eventsList, keyPressedList):
+        self.eventsList = eventsList
+        self.keyPressedList = keyPressedList
+
+        for event in eventsList:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if self.interact == True:
+                        print(self.text)
+                        self.textBox.setValue(self.text)
+
+
     def panCam(self, direction):
         self.direction = direction
         if direction == 'Up':
@@ -95,12 +122,19 @@ class Goblin():
 
     def draw(self):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
+        self.textBox.draw()
+
 
     def collidesWith(self, playerRect):
-        if self.rect.colliderect(playerRect):
+        biggerGoblinRect = self.rect.inflate(2,2)
+        if biggerGoblinRect.colliderect(playerRect):
+            self.interact = True
             return True
-        else:
-            return False
+        self.interact = False
+        self.textBox.setValue('')
+        return False
+
+
 
 
 # GOBLINMGR
@@ -110,8 +144,8 @@ class GoblinMgr():
         self.window = window
         self.goblinsList = []
 
-        self.oGoblin_Susie = Goblin(self.window, (420, 310), 'images/goblin_scarf_R1.png')
-        self.oGoblin_Bob = Goblin(self.window, (80,130),'images/goblin_purple_R1.png')
+        self.oGoblin_Susie = Goblin(self.window, (420, 310), 'images/goblin_scarf_R1.png', "Hello World!")
+        self.oGoblin_Bob = Goblin(self.window, (80,130),'images/goblin_purple_R1.png', "I am Bob")
 
         self.goblinsList.append(self.oGoblin_Susie)
         self.goblinsList.append(self.oGoblin_Bob)
@@ -119,14 +153,20 @@ class GoblinMgr():
     def reset(self):  # Called when starting a new game
         self.goblinsList = []
 
-        self.oGoblin_Susie = Goblin(self.window, (420, 310), 'images/goblin_scarf_R1.png')
-        self.oGoblin_Bob = Goblin(self.window, (80,130),'images/goblin_purple_R1.png')
+        self.oGoblin_Susie = Goblin(self.window, (420, 310), 'images/goblin_scarf_R1.png', "Hello World!")
+        self.oGoblin_Bob = Goblin(self.window, (80,130),'images/goblin_purple_R1.png', "I am Bob")
 
         self.goblinsList.append(self.oGoblin_Susie)
         self.goblinsList.append(self.oGoblin_Bob)
     def update(self):
         for goblin in self.goblinsList:
             goblin.update()
+
+    def handleInputs(self, eventsList, keyPressedList):
+        self.eventsList = eventsList
+        self.keyPressedList = keyPressedList
+        for goblin in self.goblinsList:
+            goblin.handleInputs(self.eventsList, self.keyPressedList)
 
     def panCam(self, direction):
         self.direction = direction
@@ -145,6 +185,8 @@ class GoblinMgr():
 
     def hasPlayerHitGoblin(self, playerRect):
         for goblin in self.goblinsList:
-            if goblin.collidesWith(playerRect):
-                print('player collided with Goblin')
+            goblin.collidesWith(playerRect)
+            biggerGoblinRect = goblin.rect.inflate(2,2)
+            if biggerGoblinRect.colliderect(playerRect):
                 return True
+        return False

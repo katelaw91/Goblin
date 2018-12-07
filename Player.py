@@ -14,6 +14,7 @@ class Player():
         self.camera = 0
         self.level_bottom = True
         self.level_top = False
+        self.interact = False
 
         self.maxX = WINDOW_WIDTH - self.rect.width
         self.maxY = GAME_HEIGHT - self.rect.height
@@ -103,6 +104,9 @@ class Player():
                         pass
                         #tell sceneplay that interact key was pressed
 
+        self.rect.left = self.pos.x
+        self.rect.top = self.pos.y
+
     def draw(self):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
 
@@ -188,10 +192,10 @@ class Player():
     def dying(self,keys):
         pass
 
-    def interact(self, TorF):
+    '''def interact(self, TorF):
         self.TorF = TorF
         if TorF == True:
             self.interact = True
         else:
-            self.interact = False
+            self.interact = False'''
 
