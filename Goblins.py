@@ -32,7 +32,6 @@ class Goblin():
         self.vel = VEC(0, 0)
         self.acc = VEC(0, 0)
 
-        print(self.font_name)
         self.textBox = pygwidgets.DisplayText(window,(self.pos.x - 3,self.pos.y - 3),"",fontName=self.font_name,\
                                               fontSize=16, textColor = WHITE)
 

@@ -28,11 +28,11 @@ SCENE_CONTROLS = 'scene controls'
 #LOAD
 LOGO = 'images/logo_goblin.png'
 BG_SPLASH = 'images/background_splash.png'
-SPRITESHEET = 'Insert Spritesheet Name'
+SPRITESHEET = 'images/spritesheet.png'
+SPRITESHEET_PLAYER = 'images/spritesheet_player.png'
 IMAGE_LEVEL_1 = 'images/Level1Map.png'
 ATMOSPHERE = 'images/atmos_overlay.png'
 GLOW = 'images/glow_overlay.png'
-#IMAGE_LEVEL_1 = 'images/map1_lines.png'
 IMAGE_COLLISION_MAP = 'images/ColMap.png'
 MUSIC_SPLASH = 'sounds/ForgottenVictory.ogg'
 MUSIC_GOBLINS = 'sounds/PPM-Emotional-Introspection.mp3'
@@ -46,6 +46,7 @@ PLAYER_GRAVITY = 0.45
 PLAYER_JUMP = 8.5
 
 #PLAYER STATES
+STANDING ='standing'
 WALKLEFT = 'walkleft'
 WALKRIGHT = 'walkright'
 JUMP = 'jump'

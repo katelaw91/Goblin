@@ -21,7 +21,6 @@ from Player import *
 from Villagers import *
 from Goblins import *
 
-
 class ScenePlay(SceneManager.Scene):
 
     def __init__(self, window, sceneKey):

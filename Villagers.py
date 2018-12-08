@@ -8,7 +8,7 @@ class Villager():
     MAX_SIZE = 41  # max plus one
     MIN_SPEED = 1
     MAX_SPEED = 9  # max plus one
-    IMAGE = pygame.image.load('images/villager.png')
+    IMAGE = pygame.image.load('images/goblin_R1.png')
 
     def __init__(self, window):
         self.window = window

@@ -1,35 +1,53 @@
 ### PLAYER
 import pygame
+import pygwidgets
 from Constants import *
 
 class Player():
     def __init__(self, window):
         self.window = window
-        self.image = pygame.image.load('images/goblin_R1.png')
+        #self.image = pygame.image.load('images/goblin_R1.png')
+        self.level_bottom = True
+        self.level_top = False
+        self.interact = False
+
+        #state/animation variables
+        self.currentFrame = 0  # up to number of frames in an animation
+        self.last_update = 0
+        self.idling = True
+        self.walking = False
+        self.jumping = False
+        self.spritesheet = pygame.image.load(SPRITESHEET_PLAYER).convert()
+        self.frames = []
+
+        for n in range(14):
+            width = 26
+            height = 31.5
+            rect = pygame.Rect(n*width, 0, width, height)
+            image = pygame.Surface(rect.size).convert()
+            image.blit(self.spritesheet, (0,0), rect)
+            alpha = image.get_at((0,0))
+            image.set_colorkey(alpha)
+            self.frames.append(image)
+
+        self.idleFrames = self.frames[8:14]
+
+        self.image = self.frames[0]
         self.rect = self.image.get_rect()
         self.height = self.rect.height
         self.halfHeight = self.height / 2
         self.width = self.rect.width
         self.halfWidth = self.width / 2
-        self.camera = 0
-        self.level_bottom = True
-        self.level_top = False
-        self.interact = False
-
-        self.maxX = WINDOW_WIDTH - self.rect.width
-        self.maxY = GAME_HEIGHT - self.rect.height
-
-        self.currentFrame = 0  # up to number of frames in an animation
-        self.state = WALKLEFT
+        self.idleFrame = 0
+        self.idleSpeed = 16
 
         #VEC(X,Y)
         self.pos = VEC(50, 450)
         self.vel = VEC(0,0)
         self.acc = VEC(0,0)
 
-        # instantiate collision platforms
+        #instantiate collision platforms
         self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
-        #self.collision_map_rect = self.collision_map.get_rect()
 
         self.collide_DOWN = False
         self.collide_RIGHT = False
@@ -39,20 +57,31 @@ class Player():
         self.color_LEFT = TEAL
         self.color_RIGHT = TEAL
 
+        #self.myAnimation = pygwidgets.SpriteSheetAnimation(window, (self.pos.x, self.pos.y), SPRITESHEET_PLAYER, 14, 14, 26, 38, 2)
 
     def reset(self):
         self.rect.center = (50, WINDOW_HEIGHT + 50)
-        self.state = WALKLEFT
-
 
     def update(self):
         self.collision = False
         self.camera = 0
+        #self.animate()
 
-       # motion
+       #motion
         self.acc.x += self.vel.x * PLAYER_FRICTION  # apply friction
         self.vel += self.acc  # calculate velocity
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
+
+        if self.idling:
+            self.image = self.idleFrames[int(self.idleFrame/self.idleSpeed)]
+            self.idleFrame += 1
+            if self.idleFrame >= len((self.idleFrames * self.idleSpeed)):
+                self.idleFrame = 0
+            pass
+        if self.walking:
+            pass
+        if self.jumping:
+            pass
 
         if self.pos.x >= WINDOW_WIDTH - self.width:
             self.pos.x = WINDOW_WIDTH - self.width
@@ -79,17 +108,16 @@ class Player():
 
 
 
-
     def handleInputs(self, eventsList, keyPressedList):
         self.eventsList = eventsList
         self.keyPressedList = keyPressedList
 
         if keyPressedList[pygame.K_LEFT]:
             self.acc.x = -PLAYER_ACC
-            self.state = WALKLEFT
+            #myAnimation.start()
         if keyPressedList[pygame.K_RIGHT]:
             self.acc.x = PLAYER_ACC
-            self.state = WALKRIGHT
+            #myAnimation.start()
         if keyPressedList[pygame.K_DOWN]:
             self.pos.y = self.pos.y + 2
 
@@ -97,7 +125,6 @@ class Player():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     if self.collision == True:
-                        self.state = JUMP
                         self.jumping()
                 elif event.key == pygame.K_RETURN:
                     if self.interact == True:
@@ -110,12 +137,31 @@ class Player():
     def draw(self):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
 
-    def setFrame(self, keys):
-        if self.state == WALKLEFT:
-            #set animation for walkleft
-            self.currentFrame = 0
+    '''def animate(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_update > 250:
+            self.last_update = now
+            self.currentFrame = (self.currentFrame + 1) % len(self.framesList)
+            self.image = self.framesList[self.currentFrame]
+            if self.currentFrame >= len(self.framesList):
+                print(self.currentFrame)
+                print(self.framesList[self.currentFrame])
+                self.currentFrame = 0'''
+
+    '''def setFrame(self, keys):
         if self.state == WALKRIGHT:
             #set animation for walkright
+            self.currentFrame = 0
+            self.framesList = [pygame.image.load('images/goblin_R1.png'),\
+                                                 pygame.image.load('images/goblin_R2.png')]
+        if self.state == WALKLEFT:
+            #set animation for walkleft
+            self.framesList = [pygame.image.load('images/goblin_R1.png'),\
+                               pygame.image.load('images/goblin_R2.png')]
+
+            for frame in self.framesList:
+                self.framesList.append(pygame.transform.flip(frame,True,False))
+
             self.currentFrame = 0
         elif self.state == JUMP:
             self.jumping()
@@ -125,7 +171,7 @@ class Player():
         elif self.state == DEATH:
             #play animation and sounds
             #return state so scenemgr can play gameover screen
-            pass
+            pass'''
 
     def getFrame(self):
         return self.currentFrame
@@ -184,10 +230,9 @@ class Player():
     def jumping(self):
         self.vel.y = -PLAYER_JUMP
         self.collision = False
-
-    def falling(self,keys):
-        if self.vel.y != -PLAYER_JUMP:
-            self.state = WALKLEFT
+        self.jumping = True
+        self.idling = False
+        self.walking = False
 
     def dying(self,keys):
         pass
