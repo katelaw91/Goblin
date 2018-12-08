@@ -10,12 +10,15 @@ class Player():
         self.level_bottom = True
         self.level_top = False
         self.interact = False
+        self.collision = False
+
 
         #state/animation variables
         self.currentFrame = 0  # up to number of frames in an animation
         self.last_update = 0
         self.idling = True
-        self.walking = False
+        self.walking_R = False
+        self.walking_L = False
         self.jumping = False
         self.spritesheet = pygame.image.load(SPRITESHEET_PLAYER).convert()
         self.frames = []
@@ -31,6 +34,20 @@ class Player():
             self.frames.append(image)
 
         self.idleFrames = self.frames[8:14]
+        self.walkFrames_R = self.frames[:9]
+        self.walkFrames_R = self.walkFrames_R[::-1]
+        self.walkFrames_L = self.frames[:9]
+        self.walkFrames_L = self.walkFrames_L[::-1]
+
+
+        for frame in range(9):
+            self.walkFrames_L.append(pygame.transform.flip(self.walkFrames_L[frame], True, False))
+
+        self.idleFrame = 0
+        self.idleSpeed = 16
+        self.walkFrame_R = 0
+        self.walkFrame_L = 0
+        self.walkSpeed = 10
 
         self.image = self.frames[0]
         self.rect = self.image.get_rect()
@@ -38,8 +55,7 @@ class Player():
         self.halfHeight = self.height / 2
         self.width = self.rect.width
         self.halfWidth = self.width / 2
-        self.idleFrame = 0
-        self.idleSpeed = 16
+
 
         #VEC(X,Y)
         self.pos = VEC(50, 450)
@@ -63,7 +79,6 @@ class Player():
         self.rect.center = (50, WINDOW_HEIGHT + 50)
 
     def update(self):
-        self.collision = False
         self.camera = 0
         #self.animate()
 
@@ -77,11 +92,23 @@ class Player():
             self.idleFrame += 1
             if self.idleFrame >= len((self.idleFrames * self.idleSpeed)):
                 self.idleFrame = 0
-            pass
-        if self.walking:
-            pass
+        if self.walking_R:
+            self.walking_L = False
+            self.idling = False
+            self.image = self.walkFrames_R[int(self.walkFrame_R/self.walkSpeed)]
+            self.walkFrame_R += 1
+            if self.walkFrame_R >= len((self.walkFrames_R * self.walkSpeed)):
+                self.walkFrame_R = 0
+        if self.walking_L:
+            self.walking_R = False
+            self.idling = False
+            self.image = self.walkFrames_L[int(self.walkFrame_L/self.walkSpeed)]
+            self.walkFrame_L += 1
+            if self.walkFrame_L >= len((self.walkFrames_L * self.walkSpeed)):
+                self.walkFrame_L = 0
         if self.jumping:
-            pass
+            #self.image = self.idleFrames[0]
+            self.idling = True
 
         if self.pos.x >= WINDOW_WIDTH - self.width:
             self.pos.x = WINDOW_WIDTH - self.width
@@ -114,9 +141,13 @@ class Player():
 
         if keyPressedList[pygame.K_LEFT]:
             self.acc.x = -PLAYER_ACC
+            self.walking_L = True
+            self.idling = False
             #myAnimation.start()
         if keyPressedList[pygame.K_RIGHT]:
             self.acc.x = PLAYER_ACC
+            self.walking_R = True
+            self.idling = False
             #myAnimation.start()
         if keyPressedList[pygame.K_DOWN]:
             self.pos.y = self.pos.y + 2
@@ -125,11 +156,14 @@ class Player():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     if self.collision == True:
-                        self.jumping()
+                        self.jump()
+                        self.jumping = True
                 elif event.key == pygame.K_RETURN:
                     if self.interact == True:
                         pass
                         #tell sceneplay that interact key was pressed
+            elif event.type == pygame.KEYUP:
+                self.idling = True
 
         self.rect.left = self.pos.x
         self.rect.top = self.pos.y
@@ -202,7 +236,6 @@ class Player():
             if (self.pos.y <= WINDOW_HEIGHT/4) and (self.level_top == False):
                 print("Reached top of screen")
                 self.pos.y = WINDOW_HEIGHT - (WINDOW_HEIGHT/4)
-                #self.camera = 350
                 self.collision_map.scroll(dx=0, dy=350)
                 self.level_bottom = False
                 self.level_top = True
@@ -212,22 +245,11 @@ class Player():
             if self.pos.y > WINDOW_HEIGHT:
                 print("Reached bottom of screen")
                 self.pos.y = WINDOW_HEIGHT/4
-                #self.camera = 350
                 self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
-                #self.collision_map.scroll(dx=0, dy=-350)
                 self.level_bottom = True
                 self.level_top = False
 
-    def walking(self,direction):
-        self.direction = direction
-        if direction == 'R':
-            #insert frames for R
-            pass
-        elif direction == 'L':
-            #insert frames for L
-            pass
-
-    def jumping(self):
+    def jump(self):
         self.vel.y = -PLAYER_JUMP
         self.collision = False
         self.jumping = True
