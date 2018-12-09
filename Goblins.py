@@ -18,15 +18,11 @@ class Goblin():
         self.paceRight = 0
         self.paceLeft = 100
         self.randomPace = random.randrange(0,2)
-        self.state = IDLING
+        self.state = WALKING
 
         #state/animation variables
         self.currentFrame = 0  # up to number of frames in an animation
         self.last_update = 0
-        self.idling = True
-        self.walking_R = False
-        self.walking_L = False
-        self.jumping = False
         self.spritesheet = pygame.image.load(SPRITESHEET_GOBLINS).convert()
         self.frames = []
 
@@ -107,6 +103,10 @@ class Goblin():
                 self.walkFrame_L += 1
                 if self.walkFrame_L >= len((self.walkFrames_L * self.walkSpeed)):
                     self.walkFrame_L = 0
+            if self.pos.x >= WINDOW_WIDTH - self.width:
+                self.direction = LEFT
+            elif self.pos.x <= 0 + self.rect.width:
+                self.direction = RIGHT
 
         if self.paceRight <= (random.randrange(20,50)):
             self.pos.x = self.pos.x + .8
@@ -115,17 +115,22 @@ class Goblin():
             if self.paceRight >= 50:
                 self.paceLeft = 0
                 self.direction = LEFT
+            if self.state == IDLING:
+                self.pos.x = self.pos.x
 
         if self.paceLeft <= (random.randrange(20,50)):
             self.pos.x = self.pos.x - .8
             self.paceLeft = self.paceLeft - 1
             self.direction = LEFT
+            if self.state == IDLING:
+                self.pos.x = self.pos.x
 
         if self.paceLeft <= -50:
             self.paceRight = 0
             self.paceLeft = 100
             self.direction = RIGHT
-
+            if self.state == IDLING:
+                self.pos.x = self.pos.x
 
         # determine collision based on pixel color from collision map
         try:
@@ -156,7 +161,7 @@ class Goblin():
                 if event.key == pygame.K_RETURN:
                     if self.interact == True:
                         print(self.text)
-                        self.state = IDLING
+                        self.idle()
                         self.textBox.setValue(self.text)
                         self.shadow.setValue(self.text)
 
@@ -182,13 +187,32 @@ class Goblin():
             self.interact = True
             return True
         self.interact = False
-        self.state = WALKING
         self.textBox.setValue('')
         self.shadow.setValue('')
+        self.state = WALKING
         return False
 
+    def chooseAction(self):
+        chooseAction = random.randrange(0,10)
 
-
+        #pause
+        if chooseAction <= 5:
+            self.idle()
+        #walk right
+        elif (chooseAction <=10) and (chooseAction > 5):
+            self.walk()
+    def idle(self):
+        self.state = IDLING
+        self.vel.x = 0
+    def walk(self):
+        self.state = WALKING
+        walkCount = random.randrange(1,4)
+        if self.direction == LEFT:
+            for n in range(walkCount):
+                self.pos.x = self.pos.x - 0.8
+        if self.direction == RIGHT:
+            for n in range(walkCount):
+                self.pos.x = self.pos.x + 0.8
 
 # GOBLINMGR
 class GoblinMgr():
@@ -199,18 +223,29 @@ class GoblinMgr():
 
         self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hello World!", LEFT)
         self.oGoblin_Bob = Goblin(self.window, (80,130), 31, "I am Bob", RIGHT)
+        self.oGoblin_Urk = Goblin(self.window,(80, 200), 152, "Ew a grownup!", RIGHT)
+        self.oGoblin_Meemaw = Goblin(self.window,(300, 200), 152, "You'll catch a chill dearie", LEFT)
+
 
         self.goblinsList.append(self.oGoblin_Susie)
         self.goblinsList.append(self.oGoblin_Bob)
+        self.goblinsList.append(self.oGoblin_Urk)
+        self.goblinsList.append(self.oGoblin_Meemaw)
+
 
     def reset(self):  # Called when starting a new game
         self.goblinsList = []
 
         self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hello World!", LEFT)
         self.oGoblin_Bob = Goblin(self.window, (80,130),31, "I am Bob", RIGHT)
+        self.oGoblin_Urk = Goblin(self.window,(80, 200), 152, "Ew a grownup!", RIGHT)
+        self.oGoblin_Meemaw = Goblin(self.window,(300, 200), 214, "You'll catch a chill dearie", LEFT)
 
         self.goblinsList.append(self.oGoblin_Susie)
         self.goblinsList.append(self.oGoblin_Bob)
+        self.goblinsList.append(self.oGoblin_Urk)
+        self.goblinsList.append(self.oGoblin_Meemaw)
+
     def update(self):
         for goblin in self.goblinsList:
             goblin.update()
