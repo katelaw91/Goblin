@@ -38,6 +38,7 @@ class Player():
         self.walkFrames_R = self.walkFrames_R[::-1]
         self.walkFrames_L = self.frames[:9]
         self.walkFrames_L = self.walkFrames_L[::-1]
+        self.jumpFrames = self.frames[13:18]
 
 
         for frame in range(9):
@@ -47,7 +48,11 @@ class Player():
         self.idleSpeed = 16
         self.walkFrame_R = 0
         self.walkFrame_L = 0
-        self.walkSpeed = 10
+        self.walkSpeed = 8
+        self.jumpFrame = 0
+        self.jumpSpeed = 8
+        self.fallFrame = 0
+        self.fallSpeed = 5
 
         self.image = self.frames[0]
         self.rect = self.image.get_rect()
@@ -107,8 +112,13 @@ class Player():
             if self.walkFrame_L >= len((self.walkFrames_L * self.walkSpeed)):
                 self.walkFrame_L = 0
         if self.jumping:
-            #self.image = self.idleFrames[0]
-            self.idling = True
+            self.walking_R = False
+            self.walking_L = False
+            self.idling = False
+            self.image = self.jumpFrames[int(self.jumpFrame/self.jumpSpeed)]
+            self.jumpFrame += 1
+            if self.jumpFrame >= len((self.jumpFrames * self.jumpSpeed)):
+                self.jumpFrame = 0
 
         if self.pos.x >= WINDOW_WIDTH - self.width:
             self.pos.x = WINDOW_WIDTH - self.width
@@ -125,6 +135,7 @@ class Player():
                     self.vel.y = 0
                     self.pos.y = pixel - self.height - 1
                     self.collision = True
+                    self.idling = True
                     break
                 else:
                     self.acc = VEC(0,PLAYER_GRAVITY)
@@ -143,11 +154,13 @@ class Player():
             self.acc.x = -PLAYER_ACC
             self.walking_L = True
             self.idling = False
+            self.state = WALKING_LEFT
             #myAnimation.start()
         if keyPressedList[pygame.K_RIGHT]:
             self.acc.x = PLAYER_ACC
             self.walking_R = True
             self.idling = False
+            self.state = WALKING_RIGHT
             #myAnimation.start()
         if keyPressedList[pygame.K_DOWN]:
             self.pos.y = self.pos.y + 2
@@ -158,12 +171,23 @@ class Player():
                     if self.collision == True:
                         self.jump()
                         self.jumping = True
+                        self.idling = False
+                        self.walking_L = False
+                        self.walking_R = False
+                        self.state = JUMPING
                 elif event.key == pygame.K_RETURN:
                     if self.interact == True:
                         pass
                         #tell sceneplay that interact key was pressed
             elif event.type == pygame.KEYUP:
-                self.idling = True
+                if event.key == pygame.K_SPACE:
+                    self.state = FALLING
+                else:
+                    self.idling = True
+                    self.walking_L = False
+                    self.walking_R = False
+                    self.jumping = False
+                    self.state = IDLING
 
         self.rect.left = self.pos.x
         self.rect.top = self.pos.y
@@ -233,9 +257,9 @@ class Player():
         self.direction = direction
 
         if self.direction == 'Up':
-            if (self.pos.y <= WINDOW_HEIGHT/4) and (self.level_top == False):
+            if (self.pos.y <= WINDOW_HEIGHT/6) and (self.level_top == False):
                 print("Reached top of screen")
-                self.pos.y = WINDOW_HEIGHT - (WINDOW_HEIGHT/4)
+                self.pos.y = WINDOW_HEIGHT - (WINDOW_HEIGHT/6)
                 self.collision_map.scroll(dx=0, dy=350)
                 self.level_bottom = False
                 self.level_top = True
@@ -244,7 +268,7 @@ class Player():
         else:
             if self.pos.y > WINDOW_HEIGHT:
                 print("Reached bottom of screen")
-                self.pos.y = WINDOW_HEIGHT/4
+                self.pos.y = WINDOW_HEIGHT/6 + 130
                 self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
                 self.level_bottom = True
                 self.level_top = False

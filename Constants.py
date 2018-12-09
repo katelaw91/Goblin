@@ -30,6 +30,7 @@ LOGO = 'images/logo_goblin.png'
 BG_SPLASH = 'images/background_splash.png'
 SPRITESHEET = 'images/spritesheet.png'
 SPRITESHEET_PLAYER = 'images/spritesheet_player.png'
+SPRITESHEET_GOBLINS = 'images/spritesheet_goblins.png'
 IMAGE_LEVEL_1 = 'images/Level1Map.png'
 ATMOSPHERE = 'images/atmos_overlay.png'
 GLOW = 'images/glow_overlay.png'
@@ -40,24 +41,18 @@ MUSIC_VILLAGERS = 'sounds/Town-Square.mp3'
 MUSIC_HERO = 'sounds/Young-Heroes.mp3'
 
 #PLATER PHYSICS
-PLAYER_ACC = 0.4
+PLAYER_ACC = 0.3
 PLAYER_FRICTION = -0.13
 PLAYER_GRAVITY = 0.45
 PLAYER_JUMP = 8.5
 
 #PLAYER STATES
-STANDING ='standing'
-WALKLEFT = 'walkleft'
-WALKRIGHT = 'walkright'
-JUMP = 'jump'
-DEATH = 'death'
-FALL = 'fall'
-
-
-#NPC
-LEFT = 'left'
-RIGHT = 'right'
-DEAD = 'dead'
+IDLING ='idling'
+WALKING_LEFT = 'walkleft'
+WALKING_RIGHT = 'walkright'
+JUMPING = 'jumping'
+DYING = 'dying'
+FALLING = 'falling'
 
 
 #COLORS

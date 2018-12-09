@@ -92,7 +92,7 @@ class ScenePlay(SceneManager.Scene):
 
 
         #PAN CAMERA UP
-        if self.playerY <= WINDOW_HEIGHT/4:
+        if self.playerY <= WINDOW_HEIGHT/6:
             self.oPlayer.panCam('Up')
             self.playBackground = pygwidgets.Image(self.window, (0, OFFSET + 350), IMAGE_LEVEL_1)
             #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)

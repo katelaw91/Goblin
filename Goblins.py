@@ -6,34 +6,70 @@ from Constants import *
 
 class Goblin():
 
-    def __init__(self, window, pos, image, text):
+    def __init__(self, window, pos, spritesheet_loc, text):
         # pass in position and walking direction for each NPC
         self.window = window
-        self.image = pygame.image.load(image)
         self.text = text
-        self.rect = self.image.get_rect()
-        self.height = self.rect.height
-        self.halfHeight = self.height / 2
-        self.width = self.rect.width
-        self.halfWidth = self.width / 2
-        self.font_name = pygame.font.match_font(FONT_NAME)
+        self.font_name = 'Apple'
 
-
-        self.currentFrame = 0  # up to number of frames in an animation
         self.range = random.randrange(0,15)
         self.pacing = 0
         self.paceRight = 0
         self.paceLeft = 100
         self.randomPace = random.randrange(0,2)
-        self.state = WALKLEFT
+        self.state = IDLING
+
+        #state/animation variables
+        self.currentFrame = 0  # up to number of frames in an animation
+        self.last_update = 0
+        self.idling = True
+        self.walking_R = False
+        self.walking_L = False
+        self.jumping = False
+        self.spritesheet = pygame.image.load(SPRITESHEET_GOBLINS).convert()
+        self.frames = []
+        print(spritesheet_loc)
+
+        for n in range(8):
+            width = 26
+            height = 31
+            rect = pygame.Rect((n*width, spritesheet_loc), (width, height))
+            image = pygame.Surface(rect.size).convert()
+            image.blit(self.spritesheet, (0, 0), rect)
+            alpha = image.get_at((0,0))
+            image.set_colorkey(alpha)
+            self.frames.append(image)
+
+        self.idleFrames = self.frames[0]
+        self.walkFrames_R = self.frames
+        self.walkFrames_R = self.walkFrames_R[::-1]
+        self.walkFrames_L = self.frames
+        self.walkFrames_L = self.walkFrames_L[::-1]
+
+
+        for frame in range(9):
+            self.walkFrames_L.append(pygame.transform.flip(self.walkFrames_L[frame], True, False))
+
+        self.walkFrame_R = 0
+        self.walkFrame_L = 0
+        self.walkSpeed = 10
+
+        self.image = self.frames[0]
+        self.rect = self.image.get_rect()
+        self.height = self.rect.height
+        self.halfHeight = self.height / 2
+        self.width = self.rect.width
+        self.halfWidth = self.width / 2
 
         # VEC(X,Y)
         self.pos = VEC(pos)
         self.vel = VEC(0, 0)
         self.acc = VEC(0, 0)
 
-        self.textBox = pygwidgets.DisplayText(window,(self.pos.x - 3,self.pos.y - 3),"",fontName=self.font_name,\
-                                              fontSize=16, textColor = WHITE)
+        self.textBox = pygwidgets.DisplayText(window,(self.pos.x + 3 ,self.pos.y + 15),"",fontName=self.font_name,\
+                                              fontSize=7, textColor = WHITE)
+        self.shadow = pygwidgets.DisplayText(window, (self.pos.x + 0.5, self.pos.y + 17), "", fontName=self.font_name, \
+                                              fontSize=8, textColor=BLACK)
 
         # instantiate collision platforms
         self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
@@ -62,17 +98,34 @@ class Goblin():
         self.vel += self.acc  # calculate velocity
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
-
+        if self.idling:
+            self.image = self.idleFrames
+        if self.walking_R:
+            self.image = self.walkFrames_R[int(self.walkFrame_R/self.walkSpeed)]
+            self.walking_L = False
+            self.idling = False
+            self.walkFrame_R += 1
+            if self.walkFrame_R >= len((self.walkFrames_R * self.walkSpeed)):
+                self.walkFrame_R = 0
+        if self.walking_L:
+            self.image = self.walkFrames_L[int(self.walkFrame_L/self.walkSpeed)]
+            self.walking_R = False
+            self.idling = False
+            self.walkFrame_L += 1
+            if self.walkFrame_L >= len((self.walkFrames_L * self.walkSpeed)):
+                self.walkFrame_L = 0
 
         if self.paceRight <= (random.randrange(20,50)):
             self.pos.x = self.pos.x + .8
             self.paceRight = self.paceRight + 1
+            self.walking_R = True
             if self.paceRight >= 50:
                 self.paceLeft = 0
 
         if self.paceLeft <= (random.randrange(20,50)):
             self.pos.x = self.pos.x - .8
             self.paceLeft = self.paceLeft - 1
+            self.walking_L = True
 
         if self.paceLeft <= -50:
             self.paceRight = 0
@@ -109,6 +162,7 @@ class Goblin():
                     if self.interact == True:
                         print(self.text)
                         self.textBox.setValue(self.text)
+                        self.shadow.setValue(self.text)
 
 
     def panCam(self, direction):
@@ -121,7 +175,9 @@ class Goblin():
 
     def draw(self):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
+        self.shadow.draw()
         self.textBox.draw()
+
 
 
     def collidesWith(self, playerRect):
@@ -131,6 +187,7 @@ class Goblin():
             return True
         self.interact = False
         self.textBox.setValue('')
+        self.shadow.setValue('')
         return False
 
 
@@ -143,8 +200,8 @@ class GoblinMgr():
         self.window = window
         self.goblinsList = []
 
-        self.oGoblin_Susie = Goblin(self.window, (420, 310), 'images/goblin_scarf_R1.png', "Hello World!")
-        self.oGoblin_Bob = Goblin(self.window, (80,130),'images/goblin_purple_R1.png', "I am Bob")
+        self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hello World!")
+        self.oGoblin_Bob = Goblin(self.window, (80,130), 31, "I am Bob")
 
         self.goblinsList.append(self.oGoblin_Susie)
         self.goblinsList.append(self.oGoblin_Bob)
@@ -152,8 +209,8 @@ class GoblinMgr():
     def reset(self):  # Called when starting a new game
         self.goblinsList = []
 
-        self.oGoblin_Susie = Goblin(self.window, (420, 310), 'images/goblin_scarf_R1.png', "Hello World!")
-        self.oGoblin_Bob = Goblin(self.window, (80,130),'images/goblin_purple_R1.png', "I am Bob")
+        self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hello World!")
+        self.oGoblin_Bob = Goblin(self.window, (80,130),31, "I am Bob")
 
         self.goblinsList.append(self.oGoblin_Susie)
         self.goblinsList.append(self.oGoblin_Bob)
