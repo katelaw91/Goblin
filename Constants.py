@@ -53,6 +53,8 @@ WALKING_RIGHT = 'walkright'
 JUMPING = 'jumping'
 DYING = 'dying'
 FALLING = 'falling'
+LEFT = 'left'
+RIGHT = 'right'
 
 
 #COLORS

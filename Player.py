@@ -11,19 +11,16 @@ class Player():
         self.level_top = False
         self.interact = False
         self.collision = False
-
+        self.state = IDLING
+        self.direction = RIGHT
 
         #state/animation variables
         self.currentFrame = 0  # up to number of frames in an animation
         self.last_update = 0
-        self.idling = True
-        self.walking_R = False
-        self.walking_L = False
-        self.jumping = False
         self.spritesheet = pygame.image.load(SPRITESHEET_PLAYER).convert()
         self.frames = []
 
-        for n in range(14):
+        for n in range(18):
             width = 26
             height = 31.5
             rect = pygame.Rect(n*width, 0, width, height)
@@ -33,26 +30,49 @@ class Player():
             image.set_colorkey(alpha)
             self.frames.append(image)
 
-        self.idleFrames = self.frames[8:14]
+        self.idleFrames_R = self.frames[8:14]
+        self.idleFrames_L = self.frames[8:14]
         self.walkFrames_R = self.frames[:9]
         self.walkFrames_R = self.walkFrames_R[::-1]
         self.walkFrames_L = self.frames[:9]
         self.walkFrames_L = self.walkFrames_L[::-1]
-        self.jumpFrames = self.frames[13:18]
+        self.jumpFrames_L = self.frames[13:16]
+        self.jumpFrames_R = self.frames[13:16]
+        self.fallFrames_L = self.frames[16:]
+        self.fallFrames_R = self.frames[16:]
 
+        for frame in range(5):
+            self.idleFrames_L.append(pygame.transform.flip(self.idleFrames_L[frame], True, False))
+        self.idleFrames_L = self.idleFrames_L[6:]
+        print("self.idleFrames_L: ", len(self.idleFrames_L))
 
-        for frame in range(9):
+        for frame in range(8):
             self.walkFrames_L.append(pygame.transform.flip(self.walkFrames_L[frame], True, False))
+        self.walkFrames_L = self.walkFrames_L[9:]
+        print("self.walkFrames_L: ", len(self.walkFrames_L))
 
-        self.idleFrame = 0
+        for frame in range(3):
+            self.jumpFrames_L.append(pygame.transform.flip(self.jumpFrames_L[frame], True, False))
+        self.jumpFrames_L = self.jumpFrames_L[4:]
+        print("self.jumpFrames_L: ", len(self.jumpFrames_L))
+
+        for frame in range(2):
+            self.fallFrames_L.append(pygame.transform.flip(self.fallFrames_L[frame], True, False))
+        self.fallFrames_L = self.fallFrames_L[3:]
+        print("self.fallFrames_L: ", len(self.fallFrames_L))
+
+        self.idleFrame_L = 0
+        self.idleFrame_R = 0
         self.idleSpeed = 16
         self.walkFrame_R = 0
         self.walkFrame_L = 0
         self.walkSpeed = 8
-        self.jumpFrame = 0
+        self.jumpFrame_L = 0
+        self.jumpFrame_R = 0
         self.jumpSpeed = 8
-        self.fallFrame = 0
-        self.fallSpeed = 5
+        self.fallFrame_R = 0
+        self.fallFrame_L = 0
+        self.fallSpeed = 8
 
         self.image = self.frames[0]
         self.rect = self.image.get_rect()
@@ -92,33 +112,49 @@ class Player():
         self.vel += self.acc  # calculate velocity
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
-        if self.idling:
-            self.image = self.idleFrames[int(self.idleFrame/self.idleSpeed)]
-            self.idleFrame += 1
-            if self.idleFrame >= len((self.idleFrames * self.idleSpeed)):
-                self.idleFrame = 0
-        if self.walking_R:
-            self.walking_L = False
-            self.idling = False
+        if self.state == IDLING:
+            if self.direction == LEFT:
+                self.image = self.idleFrames_L[int(self.idleFrame_L/self.idleSpeed)]
+                self.idleFrame_L += 1
+                if self.idleFrame_L >= len((self.idleFrames_L * self.idleSpeed)):
+                    self.idleFrame_L = 0
+            if self.direction == RIGHT:
+                self.image = self.idleFrames_R[int(self.idleFrame_R/self.idleSpeed)]
+                self.idleFrame_R += 1
+                if self.idleFrame_R >= len((self.idleFrames_R * self.idleSpeed)):
+                    self.idleFrame_R = 0
+        elif self.state == WALKING_RIGHT:
             self.image = self.walkFrames_R[int(self.walkFrame_R/self.walkSpeed)]
             self.walkFrame_R += 1
             if self.walkFrame_R >= len((self.walkFrames_R * self.walkSpeed)):
                 self.walkFrame_R = 0
-        if self.walking_L:
-            self.walking_R = False
-            self.idling = False
+        elif self.state == WALKING_LEFT:
             self.image = self.walkFrames_L[int(self.walkFrame_L/self.walkSpeed)]
             self.walkFrame_L += 1
             if self.walkFrame_L >= len((self.walkFrames_L * self.walkSpeed)):
                 self.walkFrame_L = 0
-        if self.jumping:
-            self.walking_R = False
-            self.walking_L = False
-            self.idling = False
-            self.image = self.jumpFrames[int(self.jumpFrame/self.jumpSpeed)]
-            self.jumpFrame += 1
-            if self.jumpFrame >= len((self.jumpFrames * self.jumpSpeed)):
-                self.jumpFrame = 0
+        elif self.state == JUMPING:
+            if self.direction == LEFT:
+                self.image = self.jumpFrames_L[int(self.jumpFrame_L/self.jumpSpeed)]
+                self.jumpFrame_L += 1
+                if self.jumpFrame_L >= len((self.jumpFrames_L * self.jumpSpeed)):
+                    self.jumpFrame_L = 0
+            if self.direction == RIGHT:
+                self.image = self.jumpFrames_R[int(self.jumpFrame_R/self.jumpSpeed)]
+                self.jumpFrame_R += 1
+                if self.jumpFrame_R >= len((self.jumpFrames_R * self.jumpSpeed)):
+                    self.jumpFrame_R = 0
+        elif self.state == FALLING:
+            if self.direction == LEFT:
+                self.image = self.fallFrames_L[int(self.fallFrame_L/self.fallSpeed)]
+                self.fallFrame_L += 1
+                if self.fallFrame_L >= len((self.fallFrames_L * self.fallSpeed)):
+                    self.fallFrame_L = 0
+            if self.direction == RIGHT:
+                self.image = self.fallFrames_R[int(self.fallFrame_R/self.fallSpeed)]
+                self.fallFrame_R += 1
+                if self.fallFrame_R >= len((self.fallFrames_R * self.fallSpeed)):
+                    self.fallFrame_R = 0
 
         if self.pos.x >= WINDOW_WIDTH - self.width:
             self.pos.x = WINDOW_WIDTH - self.width
@@ -135,7 +171,7 @@ class Player():
                     self.vel.y = 0
                     self.pos.y = pixel - self.height - 1
                     self.collision = True
-                    self.idling = True
+                    self.state = IDLING
                     break
                 else:
                     self.acc = VEC(0,PLAYER_GRAVITY)
@@ -152,15 +188,16 @@ class Player():
 
         if keyPressedList[pygame.K_LEFT]:
             self.acc.x = -PLAYER_ACC
-            self.walking_L = True
-            self.idling = False
-            self.state = WALKING_LEFT
+            self.direction = LEFT
+            if self.state == IDLING:
+                self.state = WALKING_LEFT
             #myAnimation.start()
         if keyPressedList[pygame.K_RIGHT]:
             self.acc.x = PLAYER_ACC
-            self.walking_R = True
-            self.idling = False
-            self.state = WALKING_RIGHT
+            self.direction = RIGHT
+
+            if self.state == IDLING:
+                self.state = WALKING_RIGHT
             #myAnimation.start()
         if keyPressedList[pygame.K_DOWN]:
             self.pos.y = self.pos.y + 2
@@ -170,11 +207,6 @@ class Player():
                 if event.key == pygame.K_SPACE:
                     if self.collision == True:
                         self.jump()
-                        self.jumping = True
-                        self.idling = False
-                        self.walking_L = False
-                        self.walking_R = False
-                        self.state = JUMPING
                 elif event.key == pygame.K_RETURN:
                     if self.interact == True:
                         pass
@@ -183,10 +215,6 @@ class Player():
                 if event.key == pygame.K_SPACE:
                     self.state = FALLING
                 else:
-                    self.idling = True
-                    self.walking_L = False
-                    self.walking_R = False
-                    self.jumping = False
                     self.state = IDLING
 
         self.rect.left = self.pos.x
@@ -275,10 +303,12 @@ class Player():
 
     def jump(self):
         self.vel.y = -PLAYER_JUMP
+        self.state = JUMPING
         self.collision = False
-        self.jumping = True
-        self.idling = False
-        self.walking = False
+        self.falling()
+
+    def falling(self):
+        self.state = FALLING
 
     def dying(self,keys):
         pass

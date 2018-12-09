@@ -28,7 +28,7 @@ class Goblin():
         self.jumping = False
         self.spritesheet = pygame.image.load(SPRITESHEET_GOBLINS).convert()
         self.frames = []
-        print(spritesheet_loc)
+
 
         for n in range(8):
             width = 26
