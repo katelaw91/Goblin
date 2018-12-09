@@ -50,6 +50,7 @@ PLAYER_JUMP = 8.5
 IDLING ='idling'
 WALKING_LEFT = 'walkleft'
 WALKING_RIGHT = 'walkright'
+WALKING = 'walking'
 JUMPING = 'jumping'
 DYING = 'dying'
 FALLING = 'falling'

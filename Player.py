@@ -44,22 +44,18 @@ class Player():
         for frame in range(5):
             self.idleFrames_L.append(pygame.transform.flip(self.idleFrames_L[frame], True, False))
         self.idleFrames_L = self.idleFrames_L[6:]
-        print("self.idleFrames_L: ", len(self.idleFrames_L))
 
         for frame in range(8):
             self.walkFrames_L.append(pygame.transform.flip(self.walkFrames_L[frame], True, False))
         self.walkFrames_L = self.walkFrames_L[9:]
-        print("self.walkFrames_L: ", len(self.walkFrames_L))
 
         for frame in range(3):
             self.jumpFrames_L.append(pygame.transform.flip(self.jumpFrames_L[frame], True, False))
         self.jumpFrames_L = self.jumpFrames_L[4:]
-        print("self.jumpFrames_L: ", len(self.jumpFrames_L))
 
         for frame in range(2):
             self.fallFrames_L.append(pygame.transform.flip(self.fallFrames_L[frame], True, False))
         self.fallFrames_L = self.fallFrames_L[3:]
-        print("self.fallFrames_L: ", len(self.fallFrames_L))
 
         self.idleFrame_L = 0
         self.idleFrame_R = 0
@@ -105,13 +101,13 @@ class Player():
 
     def update(self):
         self.camera = 0
-        #self.animate()
 
        #motion
         self.acc.x += self.vel.x * PLAYER_FRICTION  # apply friction
         self.vel += self.acc  # calculate velocity
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
+        #states
         if self.state == IDLING:
             if self.direction == LEFT:
                 self.image = self.idleFrames_L[int(self.idleFrame_L/self.idleSpeed)]
@@ -222,61 +218,6 @@ class Player():
 
     def draw(self):
         self.window.blit(self.image, (self.pos.x, self.pos.y))
-
-    '''def animate(self):
-        now = pygame.time.get_ticks()
-        if now - self.last_update > 250:
-            self.last_update = now
-            self.currentFrame = (self.currentFrame + 1) % len(self.framesList)
-            self.image = self.framesList[self.currentFrame]
-            if self.currentFrame >= len(self.framesList):
-                print(self.currentFrame)
-                print(self.framesList[self.currentFrame])
-                self.currentFrame = 0'''
-
-    '''def setFrame(self, keys):
-        if self.state == WALKRIGHT:
-            #set animation for walkright
-            self.currentFrame = 0
-            self.framesList = [pygame.image.load('images/goblin_R1.png'),\
-                                                 pygame.image.load('images/goblin_R2.png')]
-        if self.state == WALKLEFT:
-            #set animation for walkleft
-            self.framesList = [pygame.image.load('images/goblin_R1.png'),\
-                               pygame.image.load('images/goblin_R2.png')]
-
-            for frame in self.framesList:
-                self.framesList.append(pygame.transform.flip(frame,True,False))
-
-            self.currentFrame = 0
-        elif self.state == JUMP:
-            self.jumping()
-            self.currentFrame = 0
-        elif self.state == FALL:
-            self.falling()
-        elif self.state == DEATH:
-            #play animation and sounds
-            #return state so scenemgr can play gameover screen
-            pass'''
-
-    def getFrame(self):
-        return self.currentFrame
-
-    def getPos(self, xOrY):
-        if xOrY == 'y':
-            return self.rect.centery
-        elif xOrY == 'x':
-            return self.rect.centerx
-        else:
-            return self.rect.midbottom
-
-    def getVel(self, xOrY):
-        if xOrY == 'y':
-            return self.vel.y
-        elif xOrY == 'x':
-            return self.vel.x
-        else:
-            return self.vel
 
     def getRect(self):
         return self.rect

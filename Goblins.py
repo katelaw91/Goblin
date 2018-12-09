@@ -6,11 +6,12 @@ from Constants import *
 
 class Goblin():
 
-    def __init__(self, window, pos, spritesheet_loc, text):
+    def __init__(self, window, pos, spritesheet_loc, text, direction):
         # pass in position and walking direction for each NPC
         self.window = window
         self.text = text
         self.font_name = 'Apple'
+        self.direction = direction
 
         self.range = random.randrange(0,15)
         self.pacing = 0
@@ -46,9 +47,9 @@ class Goblin():
         self.walkFrames_L = self.frames
         self.walkFrames_L = self.walkFrames_L[::-1]
 
-
-        for frame in range(9):
+        for frame in range(8):
             self.walkFrames_L.append(pygame.transform.flip(self.walkFrames_L[frame], True, False))
+        self.walkFrames_L = self.walkFrames_L[9:]
 
         self.walkFrame_R = 0
         self.walkFrame_L = 0
@@ -85,11 +86,6 @@ class Goblin():
         self.camera = 0
         self.interact = False
 
-        # Goblin Dictionary of Dictionaries
-        '''self.susieDict = {'Location': ( 0, 0), 'Image': 'images/goblin_scarf_R1.png', 'Interact_1': "Hello World!", 'Interact_2': "That's it..."}
-        self.bobDict = {'Location': ( 0, 0), 'Image': 'images/goblin_purple_R1.png', 'Interact_1': "I am Bob", 'Interact_2': "Scram guy..."}
-        self.goblinDict = {oGoblin_Susie:susieDict, oGoblin_Bob:bobDict}'''
-
 
     def update(self):
 
@@ -98,38 +94,37 @@ class Goblin():
         self.vel += self.acc  # calculate velocity
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
-        if self.idling:
+        if self.state == IDLING:
             self.image = self.idleFrames
-        if self.walking_R:
-            self.image = self.walkFrames_R[int(self.walkFrame_R/self.walkSpeed)]
-            self.walking_L = False
-            self.idling = False
-            self.walkFrame_R += 1
-            if self.walkFrame_R >= len((self.walkFrames_R * self.walkSpeed)):
-                self.walkFrame_R = 0
-        if self.walking_L:
-            self.image = self.walkFrames_L[int(self.walkFrame_L/self.walkSpeed)]
-            self.walking_R = False
-            self.idling = False
-            self.walkFrame_L += 1
-            if self.walkFrame_L >= len((self.walkFrames_L * self.walkSpeed)):
-                self.walkFrame_L = 0
+        if self.state == WALKING:
+            if self.direction == RIGHT:
+                self.image = self.walkFrames_R[int(self.walkFrame_R/self.walkSpeed)]
+                self.walkFrame_R += 1
+                if self.walkFrame_R >= len((self.walkFrames_R * self.walkSpeed)):
+                    self.walkFrame_R = 0
+            elif self.direction == LEFT:
+                self.image = self.walkFrames_L[int(self.walkFrame_L/self.walkSpeed)]
+                self.walkFrame_L += 1
+                if self.walkFrame_L >= len((self.walkFrames_L * self.walkSpeed)):
+                    self.walkFrame_L = 0
 
         if self.paceRight <= (random.randrange(20,50)):
             self.pos.x = self.pos.x + .8
             self.paceRight = self.paceRight + 1
-            self.walking_R = True
+            self.direction = RIGHT
             if self.paceRight >= 50:
                 self.paceLeft = 0
+                self.direction = LEFT
 
         if self.paceLeft <= (random.randrange(20,50)):
             self.pos.x = self.pos.x - .8
             self.paceLeft = self.paceLeft - 1
-            self.walking_L = True
+            self.direction = LEFT
 
         if self.paceLeft <= -50:
             self.paceRight = 0
             self.paceLeft = 100
+            self.direction = RIGHT
 
 
         # determine collision based on pixel color from collision map
@@ -161,6 +156,7 @@ class Goblin():
                 if event.key == pygame.K_RETURN:
                     if self.interact == True:
                         print(self.text)
+                        self.state = IDLING
                         self.textBox.setValue(self.text)
                         self.shadow.setValue(self.text)
 
@@ -186,6 +182,7 @@ class Goblin():
             self.interact = True
             return True
         self.interact = False
+        self.state = WALKING
         self.textBox.setValue('')
         self.shadow.setValue('')
         return False
@@ -200,8 +197,8 @@ class GoblinMgr():
         self.window = window
         self.goblinsList = []
 
-        self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hello World!")
-        self.oGoblin_Bob = Goblin(self.window, (80,130), 31, "I am Bob")
+        self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hello World!", LEFT)
+        self.oGoblin_Bob = Goblin(self.window, (80,130), 31, "I am Bob", RIGHT)
 
         self.goblinsList.append(self.oGoblin_Susie)
         self.goblinsList.append(self.oGoblin_Bob)
@@ -209,8 +206,8 @@ class GoblinMgr():
     def reset(self):  # Called when starting a new game
         self.goblinsList = []
 
-        self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hello World!")
-        self.oGoblin_Bob = Goblin(self.window, (80,130),31, "I am Bob")
+        self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hello World!", LEFT)
+        self.oGoblin_Bob = Goblin(self.window, (80,130),31, "I am Bob", RIGHT)
 
         self.goblinsList.append(self.oGoblin_Susie)
         self.goblinsList.append(self.oGoblin_Bob)
