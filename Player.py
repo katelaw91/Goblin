@@ -7,8 +7,7 @@ class Player():
     def __init__(self, window):
         self.window = window
         #self.image = pygame.image.load('images/goblin_R1.png')
-        self.level_bottom = True
-        self.level_top = False
+        self.levelState = GOBLIN_LOWER
         self.interact = False
         self.collision = False
         self.state = IDLING
@@ -20,7 +19,7 @@ class Player():
         self.spritesheet = pygame.image.load(SPRITESHEET_PLAYER).convert()
         self.frames = []
 
-        for n in range(18):
+        for n in range(21):
             width = 26
             height = 31.5
             rect = pygame.Rect(n*width, 0, width, height)
@@ -38,8 +37,10 @@ class Player():
         self.walkFrames_L = self.walkFrames_L[::-1]
         self.jumpFrames_L = self.frames[13:16]
         self.jumpFrames_R = self.frames[13:16]
-        self.fallFrames_L = self.frames[16:]
-        self.fallFrames_R = self.frames[16:]
+        self.fallFrames_L = self.frames[16:18]
+        self.fallFrames_R = self.frames[16:18]
+        self.attackFrames_L = self.frames[19:21]
+        self.attackFrames_R = self.frames[19:21]
 
         for frame in range(5):
             self.idleFrames_L.append(pygame.transform.flip(self.idleFrames_L[frame], True, False))
@@ -57,6 +58,10 @@ class Player():
             self.fallFrames_L.append(pygame.transform.flip(self.fallFrames_L[frame], True, False))
         self.fallFrames_L = self.fallFrames_L[3:]
 
+        for frame in range(3):
+            self.attackFrames_L.append(pygame.transform.flip(self.attackFrames_L[frame], True, False))
+        self.attackFrames_L = self.attackFrames_L[4:]
+
         self.idleFrame_L = 0
         self.idleFrame_R = 0
         self.idleSpeed = 16
@@ -69,6 +74,9 @@ class Player():
         self.fallFrame_R = 0
         self.fallFrame_L = 0
         self.fallSpeed = 8
+        self.attackSpeed = 12
+        self.attackFrame_L = 0
+        self.attackFrame_R = 0
 
         self.image = self.frames[0]
         self.rect = self.image.get_rect()
@@ -151,12 +159,23 @@ class Player():
                 self.fallFrame_R += 1
                 if self.fallFrame_R >= len((self.fallFrames_R * self.fallSpeed)):
                     self.fallFrame_R = 0
+        elif self.state == ATTACKING:
+            if self.direction == LEFT:
+                self.image = self.attackFrames_L[int(self.attackFrame_L/self.attackSpeed)]
+                self.attackFrame_L += 1
+                if self.attackFrame_L >= len((self.attackFrames_L * self.attackSpeed)):
+                    self.attackFrame_L = 0
+            if self.direction == RIGHT:
+                self.image = self.attackFrames_R[int(self.attackFrame_R/self.attackSpeed)]
+                self.attackFrame_R += 1
+                if self.attackFrame_R >= len((self.attackFrames_R * self.attackSpeed)):
+                    self.attackFrame_R = 0
 
         if self.pos.x >= WINDOW_WIDTH - self.width:
             self.pos.x = WINDOW_WIDTH - self.width
         if self.pos.x <= 0 + self.width/2:
             self.pos.x = 0 + self.width/2
-        if (self.pos.y >= 538.675) and (self.level_bottom == True):
+        if (self.pos.y >= 538.675) and (self.levelState == GOBLIN_LOWER):
             self.pos.y = 535
 
         try:
@@ -198,6 +217,9 @@ class Player():
         if keyPressedList[pygame.K_DOWN]:
             self.pos.y = self.pos.y + 2
 
+        if keyPressedList[pygame.K_r]:
+            self.state = ATTACKING
+
         for event in eventsList:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
@@ -226,21 +248,17 @@ class Player():
         self.direction = direction
 
         if self.direction == 'Up':
-            if (self.pos.y <= WINDOW_HEIGHT/6) and (self.level_top == False):
-                print("Reached top of screen")
+            if (self.pos.y <= WINDOW_HEIGHT/6) and (self.levelState == GOBLIN_LOWER):
                 self.pos.y = WINDOW_HEIGHT - (WINDOW_HEIGHT/6)
                 self.collision_map.scroll(dx=0, dy=350)
-                self.level_bottom = False
-                self.level_top = True
-            elif (self.pos.y <= WINDOW_HEIGHT/4) and (self.level_top == True):
+                self.levelState = GOBLIN_UPPER
+            elif (self.pos.y <= WINDOW_HEIGHT/4) and (self.levelState == GOBLIN_UPPER):
                 pass
         else:
             if self.pos.y > WINDOW_HEIGHT:
-                print("Reached bottom of screen")
                 self.pos.y = WINDOW_HEIGHT/6 + 130
                 self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
-                self.level_bottom = True
-                self.level_top = False
+                self.levelState = GOBLIN_LOWER
 
     def jump(self):
         self.vel.y = -PLAYER_JUMP

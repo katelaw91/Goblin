@@ -30,7 +30,9 @@ class ScenePlay(SceneManager.Scene):
         self.playBackground = pygwidgets.Image(self.window, (0, OFFSET), IMAGE_LEVEL_1)
         self.atmosphere = pygwidgets.Image(self.window, (0,0), ATMOSPHERE)
         self.glow = pygwidgets.Image(self.window, (0, OFFSET), GLOW)
+        self.vines = pygwidgets.Image(self.window,(0,OFFSET), VINES)
         #y -320
+        self.levelState = GOBLIN_LOWER
 
         #instantiate objects
         self.oVillagerMgr = VillagerMgr(self.window)
@@ -97,7 +99,10 @@ class ScenePlay(SceneManager.Scene):
             self.playBackground = pygwidgets.Image(self.window, (0, OFFSET + 350), IMAGE_LEVEL_1)
             #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
             self.glow = pygwidgets.Image(self.window, (0, OFFSET + 350), GLOW)
+            self.vines = pygwidgets.Image(self.window, (0, OFFSET + 350), VINES)
+
             self.oGoblinMgr.panCam('Up')
+            self.levelState = GOBLIN_UPPER
 
         #PAN CAMERA DOWN
         if self.playerY > WINDOW_HEIGHT:
@@ -105,12 +110,16 @@ class ScenePlay(SceneManager.Scene):
             self.playBackground = pygwidgets.Image(self.window, (0, OFFSET), IMAGE_LEVEL_1)
             #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
             self.glow = pygwidgets.Image(self.window, (0, OFFSET), GLOW)
+            self.vines = pygwidgets.Image(self.window, (0, OFFSET), VINES)
+
             self.oGoblinMgr.panCam('Down')
+            self.levelState = GOBLIN_LOWER
     
     def draw(self):
         # Draw everything
         self.window.fill(BLACK)
         self.playBackground.draw()
+        self.vines.draw()
         self.atmosphere.draw()
         self.glow.draw()
     

@@ -34,6 +34,7 @@ SPRITESHEET_GOBLINS = 'images/spritesheet_goblins.png'
 IMAGE_LEVEL_1 = 'images/Level1Map.png'
 ATMOSPHERE = 'images/atmos_overlay.png'
 GLOW = 'images/glow_overlay.png'
+VINES = 'images/vines_overlay.png'
 IMAGE_COLLISION_MAP = 'images/ColMap.png'
 MUSIC_SPLASH = 'sounds/ForgottenVictory.ogg'
 MUSIC_GOBLINS = 'sounds/PPM-Emotional-Introspection.mp3'
@@ -56,6 +57,13 @@ DYING = 'dying'
 FALLING = 'falling'
 LEFT = 'left'
 RIGHT = 'right'
+ATTACKING = 'attacking'
+
+#LEVEL STATES
+GOBLIN_LOWER = 'goblinlower'
+GOBLIN_UPPER = 'goblinupper'
+CITY_LOWER = 'citylower'
+CITY_UPPER = 'cityupper'
 
 
 #COLORS
