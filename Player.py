@@ -6,7 +6,6 @@ from Constants import *
 class Player():
     def __init__(self, window):
         self.window = window
-        #self.image = pygame.image.load('images/goblin_R1.png')
         self.levelState = GOBLIN_LOWER
         self.interact = False
         self.collision = False
@@ -92,7 +91,7 @@ class Player():
         self.acc = VEC(0,0)
 
         #instantiate collision platforms
-        self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
+        self.collision_map = pygame.image.load(CM_LEVEL_1)
 
         self.collide_DOWN = False
         self.collide_RIGHT = False
@@ -101,8 +100,6 @@ class Player():
         self.color_DOWN = TEAL
         self.color_LEFT = TEAL
         self.color_RIGHT = TEAL
-
-        #self.myAnimation = pygwidgets.SpriteSheetAnimation(window, (self.pos.x, self.pos.y), SPRITESHEET_PLAYER, 14, 14, 26, 38, 2)
 
     def reset(self):
         self.rect.center = (50, WINDOW_HEIGHT + 50)
@@ -181,7 +178,7 @@ class Player():
         try:
             # determine collision based on pixel color from collision map
             for pixel in range(int(self.pos.y + self.height), int((self.pos.y + self.height) + self.halfHeight + 1)):
-                self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel - OFFSET + self.camera)))
+                self.color_DOWN = self.collision_map.get_at((int(self.pos.x), int(pixel)))
                 if self.color_DOWN == HIT and self.vel.y > 0:
                     self.vel.y = 0
                     self.pos.y = pixel - self.height - 1
@@ -248,17 +245,41 @@ class Player():
         self.direction = direction
 
         if self.direction == 'Up':
-            if (self.pos.y <= WINDOW_HEIGHT/6) and (self.levelState == GOBLIN_LOWER):
-                self.pos.y = WINDOW_HEIGHT - (WINDOW_HEIGHT/6)
-                self.collision_map.scroll(dx=0, dy=350)
+            if (self.pos.y <= 0) and (self.levelState == GOBLIN_LOWER):
+                self.collision_map = pygame.image.load(CM_LEVEL_2)
+                self.pos.y = WINDOW_HEIGHT - 50
                 self.levelState = GOBLIN_UPPER
-            elif (self.pos.y <= WINDOW_HEIGHT/4) and (self.levelState == GOBLIN_UPPER):
-                pass
+            elif (self.pos.y <= 0) and (self.levelState == GOBLIN_UPPER):
+                self.collision_map = pygame.image.load(CM_LEVEL_3)
+                self.pos.y = WINDOW_HEIGHT - 50
+                self.levelState = CITY_LOWER
+            elif (self.pos.y <= 0) and (self.levelState == CITY_LOWER):
+                self.collision_map = pygame.image.load(CM_LEVEL_4)
+                self.pos.y = WINDOW_HEIGHT - 50
+                self.levelState = CITY_UPPER
+            elif (self.pos.y <= 0) and (self.levelState == CITY_UPPER):
+                self.collision_map = pygame.image.load(CM_LEVEL_5)
+                self.pos.y = WINDOW_HEIGHT - 50
+                self.levelState = LEVEL_END
+
+
         else:
-            if self.pos.y > WINDOW_HEIGHT:
-                self.pos.y = WINDOW_HEIGHT/6 + 130
-                self.collision_map = pygame.image.load(IMAGE_COLLISION_MAP)
+            if (self.pos.y > WINDOW_HEIGHT) and (self.levelState == GOBLIN_UPPER):
+                self.collision_map = pygame.image.load(CM_LEVEL_1)
+                self.pos.y = 50
                 self.levelState = GOBLIN_LOWER
+            elif (self.pos.y > WINDOW_HEIGHT) and (self.levelState == CITY_LOWER):
+                self.collision_map = pygame.image.load(CM_LEVEL_2)
+                self.pos.y = 50
+                self.levelState = GOBLIN_UPPER
+            elif (self.pos.y > WINDOW_HEIGHT) and (self.levelState == CITY_UPPER):
+                self.collision_map = pygame.image.load(CM_LEVEL_3)
+                self.levelState = CITY_LOWER
+                self.pos.y = 50
+            elif (self.pos.y > WINDOW_HEIGHT) and (self.levelState == LEVEL_END):
+                self.collision_map = pygame.image.load(CM_LEVEL_4)
+                self.levelState = CITY_UPPER
+                self.pos.y = 50
 
     def jump(self):
         self.vel.y = -PLAYER_JUMP
@@ -271,11 +292,5 @@ class Player():
 
     def dying(self,keys):
         pass
-
-    '''def interact(self, TorF):
-        self.TorF = TorF
-        if TorF == True:
-            self.interact = True
-        else:
-            self.interact = False'''
+\
 

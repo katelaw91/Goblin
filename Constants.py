@@ -5,8 +5,8 @@ import pygame
 #GAME
 TITLE = "Goblin"
 WINDOW_WIDTH = 540
-WINDOW_HEIGHT = 600
-OFFSET = -400
+WINDOW_HEIGHT = 590
+OFFSET = 0
 #640
 SPLASH_WINDOW_WIDTH = 540
 SPLASH_WINDOW_HEIGHT = 540
@@ -31,11 +31,29 @@ BG_SPLASH = 'images/background_splash.png'
 SPRITESHEET = 'images/spritesheet.png'
 SPRITESHEET_PLAYER = 'images/spritesheet_player.png'
 SPRITESHEET_GOBLINS = 'images/spritesheet_goblins.png'
-IMAGE_LEVEL_1 = 'images/Level1Map.png'
-ATMOSPHERE = 'images/atmos_overlay.png'
-GLOW = 'images/glow_overlay.png'
+
+#LEVELS
+IMAGE_LEVEL_1 = 'images/Level1_BG.png'
+IMAGE_LEVEL_2 = 'images/Level2_BG.png'
+IMAGE_LEVEL_3 = 'images/Level3_BG.png'
+IMAGE_LEVEL_4 = 'images/Level4_BG.png'
+IMAGE_LEVEL_5 = 'images/Level5_BG.png'
+GLOW_LEVEL_1 = 'images/Level1_GLO.png'
+GLOW_LEVEL_2 = 'images/Level2_GLO.png'
+GLOW_LEVEL_3 = 'images/Level3_GLO.png'
+GLOW_LEVEL_4 = 'images/Level4_GLO.png'
+GLOW_LEVEL_5 = 'images/Level5_GLO.png'
+CM_LEVEL_1 = 'images/Level1_CM.png'
+CM_LEVEL_2 = 'images/Level2_CM.png'
+CM_LEVEL_3 = 'images/Level3_CM.png'
+CM_LEVEL_4 = 'images/Level4_CM.png'
+CM_LEVEL_5 = 'images/Level5_CM.png'
 VINES = 'images/vines_overlay.png'
-IMAGE_COLLISION_MAP = 'images/ColMap.png'
+ATMOSPHERE = 'images/atmos_overlay.png'
+
+IMAGE_COLLISION_MAP_2 = 'images/ColMap_Lvl2.png'
+
+#MUSIC
 MUSIC_SPLASH = 'sounds/ForgottenVictory.ogg'
 MUSIC_GOBLINS = 'sounds/PPM-Emotional-Introspection.mp3'
 MUSIC_VILLAGERS = 'sounds/Town-Square.mp3'
@@ -64,6 +82,7 @@ GOBLIN_LOWER = 'goblinlower'
 GOBLIN_UPPER = 'goblinupper'
 CITY_LOWER = 'citylower'
 CITY_UPPER = 'cityupper'
+LEVEL_END = 'levelend'
 
 
 #COLORS

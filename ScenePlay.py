@@ -27,11 +27,9 @@ class ScenePlay(SceneManager.Scene):
         # Save window and sceneKey in instance variables
         self.window = window
         self.sceneKey = sceneKey
-        self.playBackground = pygwidgets.Image(self.window, (0, OFFSET), IMAGE_LEVEL_1)
+        self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_1)
         self.atmosphere = pygwidgets.Image(self.window, (0,0), ATMOSPHERE)
-        self.glow = pygwidgets.Image(self.window, (0, OFFSET), GLOW)
-        self.vines = pygwidgets.Image(self.window,(0,OFFSET), VINES)
-        #y -320
+        self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_1)
         self.levelState = GOBLIN_LOWER
 
         #instantiate objects
@@ -94,32 +92,61 @@ class ScenePlay(SceneManager.Scene):
 
 
         #PAN CAMERA UP
-        if self.playerY <= WINDOW_HEIGHT/6:
+        if (self.playerY <= 0) and (self.levelState == GOBLIN_LOWER):
             self.oPlayer.panCam('Up')
-            self.playBackground = pygwidgets.Image(self.window, (0, OFFSET + 350), IMAGE_LEVEL_1)
-            #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
-            self.glow = pygwidgets.Image(self.window, (0, OFFSET + 350), GLOW)
-            self.vines = pygwidgets.Image(self.window, (0, OFFSET + 350), VINES)
-
-            self.oGoblinMgr.panCam('Up')
+            self.oGoblinMgr.panCam('Up', self.levelState)
+            self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_2)
+            self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_2)
             self.levelState = GOBLIN_UPPER
 
-        #PAN CAMERA DOWN
-        if self.playerY > WINDOW_HEIGHT:
-            self.oPlayer.panCam('Down')
-            self.playBackground = pygwidgets.Image(self.window, (0, OFFSET), IMAGE_LEVEL_1)
-            #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
-            self.glow = pygwidgets.Image(self.window, (0, OFFSET), GLOW)
-            self.vines = pygwidgets.Image(self.window, (0, OFFSET), VINES)
+        elif (self.playerY <= 0) and (self.levelState == GOBLIN_UPPER):
+            self.oPlayer.panCam('Up')
+            self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_3)
+            self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_3)
+            self.levelState = CITY_LOWER
 
-            self.oGoblinMgr.panCam('Down')
+        elif (self.playerY <= 0) and (self.levelState == CITY_LOWER):
+            self.oPlayer.panCam('Up')
+            self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_4)
+            self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_4)
+            self.levelState = CITY_UPPER
+
+        elif (self.playerY <= 0) and (self.levelState == CITY_UPPER):
+            self.oPlayer.panCam('Up')
+            self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_5)
+            self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_5)
+            self.levelState = LEVEL_END
+            print("reached the top of the city")
+
+        #PAN CAMERA DOWN
+        if (self.playerY > WINDOW_HEIGHT) and (self.levelState == GOBLIN_UPPER):
+            self.oPlayer.panCam('Down')
+            self.oGoblinMgr.panCam('Down', self.levelState)
+            self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_1)
+            self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_1)
             self.levelState = GOBLIN_LOWER
+        elif (self.playerY > WINDOW_HEIGHT) and (self.levelState == CITY_LOWER):
+            self.oPlayer.panCam('Down')
+            self.oGoblinMgr.panCam('Down', self.levelState)
+            self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_2)
+            self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_2)
+            self.levelState = GOBLIN_UPPER
+        elif (self.playerY > WINDOW_HEIGHT) and (self.levelState == CITY_UPPER):
+            self.oPlayer.panCam('Down')
+            self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_3)
+            self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_3)
+            self.levelState = CITY_LOWER
+        elif (self.playerY > WINDOW_HEIGHT) and (self.levelState == LEVEL_END):
+            self.oPlayer.panCam('Down')
+            self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_4)
+            self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_4)
+            self.levelState = CITY_UPPER
+
     
     def draw(self):
         # Draw everything
         self.window.fill(BLACK)
         self.playBackground.draw()
-        self.vines.draw()
         self.atmosphere.draw()
         self.glow.draw()
     
