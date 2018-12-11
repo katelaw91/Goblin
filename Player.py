@@ -105,7 +105,6 @@ class Player():
         self.rect.center = (50, WINDOW_HEIGHT + 50)
 
     def update(self):
-        self.camera = 0
 
        #motion
         self.acc.x += self.vel.x * PLAYER_FRICTION  # apply friction
@@ -168,10 +167,10 @@ class Player():
                 if self.attackFrame_R >= len((self.attackFrames_R * self.attackSpeed)):
                     self.attackFrame_R = 0
 
-        if self.pos.x >= WINDOW_WIDTH - self.width:
-            self.pos.x = WINDOW_WIDTH - self.width
-        if self.pos.x <= 0 + self.width/2:
-            self.pos.x = 0 + self.width/2
+        if self.pos.x >= WINDOW_WIDTH + self.width:
+            self.pos.x = WINDOW_WIDTH + self.width
+        if self.pos.x <= 0 + self.width/8:
+            self.pos.x = 0 + self.width/8
         if (self.pos.y >= 538.675) and (self.levelState == GOBLIN_LOWER):
             self.pos.y = 535
 

@@ -83,7 +83,7 @@ class Goblin():
         self.interact = False
 
 
-    def update(self):
+    def update(self, currentLevelState):
 
         # motion
         self.acc.x += self.vel.x * PLAYER_FRICTION  # apply friction
@@ -129,6 +129,18 @@ class Goblin():
                 if self.state == IDLING:
                     self.pos.x = self.pos.x
 
+        if currentLevelState == GOBLIN_LOWER:
+            self.collision_map = pygame.image.load(CM_LEVEL_1)
+        elif currentLevelState == GOBLIN_UPPER:
+            self.collision_map = pygame.image.load(CM_LEVEL_2)
+            #self.collision_map.scroll(dx=0, dy=15)
+        elif currentLevelState == CITY_LOWER:
+            self.collision_map = pygame.image.load(CM_LEVEL_3)
+        elif currentLevelState == CITY_UPPER:
+            self.collision_map = pygame.image.load(CM_LEVEL_4)
+        elif currentLevelState == LEVEL_END:
+            self.collision_map = pygame.image.load(CM_LEVEL_5)
+
         # determine collision based on pixel color from collision map
         try:
             for pixel in range(int(self.pos.y + self.height), int((self.pos.y + self.height) + self.halfHeight + 1)):
@@ -164,23 +176,17 @@ class Goblin():
 
 
     def panCam(self, levelState):
-        print(levelState)
         if levelState == GOBLIN_LOWER:
             self.collision_map = pygame.image.load(CM_LEVEL_1)
-            print("loading lvl 1")
         elif levelState == GOBLIN_UPPER:
             self.collision_map = pygame.image.load(CM_LEVEL_2)
             #self.collision_map.scroll(dx=0, dy=15)
-            print("loading lvl 2")
         elif levelState == CITY_LOWER:
             self.collision_map = pygame.image.load(CM_LEVEL_3)
-            print("loading lvl 3")
         elif levelState == CITY_UPPER:
             self.collision_map = pygame.image.load(CM_LEVEL_4)
-            print("loading lvl 4")
         elif levelState == LEVEL_END:
             self.collision_map = pygame.image.load(CM_LEVEL_5)
-            print("loading lvl 5")
 
 
     def draw(self):
@@ -231,13 +237,13 @@ class GoblinMgr():
         self.goblinsList = []
         self.levelState = GOBLIN_LOWER
 
-        self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hello World!", LEFT)
-        self.oGoblin_Bob = Goblin(self.window, (80,130), 31, "I am Bob", RIGHT)
+        self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hey theree!", LEFT)
+        self.oGoblin_Bob = Goblin(self.window, (80,130), 31, "Out for a stroll?", RIGHT)
         self.oGoblin_Eck = Goblin(self.window, (10, 250), 183, "I'm hunting bugs...", RIGHT)
-        self.oGoblin_Urk = Goblin(self.window, (480, 340), 152, "Ew a grownup!", RIGHT)
-        self.oGoblin_Meemaw = Goblin(self.window, (70, 154), 214, "You'll catch a chill dearie", LEFT)
-        self.oGoblin_Sal = Goblin(self.window, (420, 310), 124, "Please collide", LEFT)
-        self.oGoblin_Kruk = Goblin(self.window, (100,100), 93, "PLEASE", RIGHT)
+        self.oGoblin_Urk = Goblin(self.window, (450, 294), 152, "Ew a grownup!", RIGHT)
+        self.oGoblin_Meemaw = Goblin(self.window, (70, 58), 214, "You'll catch a chill dearie", LEFT)
+        self.oGoblin_Sal = Goblin(self.window, (420, 250), 124, "Hey there!", LEFT)
+        self.oGoblin_Kruk = Goblin(self.window, (160,290), 93, "Got any fish?", RIGHT)
 
         self.goblinsList.append(self.oGoblin_Susie)
         self.goblinsList.append(self.oGoblin_Bob)
@@ -253,18 +259,19 @@ class GoblinMgr():
             self.goblinsList.append(self.oGoblin_Eck)
         elif self.levelState == GOBLIN_UPPER:
             self.goblinsList = []
-            self.oGoblin_Bob = Goblin(self.window, (100, 558), 31, "I am Bob", RIGHT)
+            self.oGoblin_Bob = Goblin(self.window, (80, 510), 31, "Out for a stroll?", RIGHT)
             self.goblinsList.append(self.oGoblin_Bob)
             self.goblinsList.append(self.oGoblin_Urk)
             self.goblinsList.append(self.oGoblin_Meemaw)
-        elif self.levelState == CITY_LOWER:
-            self.goblinsList = []
             self.goblinsList.append(self.oGoblin_Sal)
             self.goblinsList.append(self.oGoblin_Kruk)
+        else:
+            self.goblinsList = []
+
 
     def update(self):
         for goblin in self.goblinsList:
-            goblin.update()
+            goblin.update(self.levelState)
 
     def handleInputs(self, eventsList, keyPressedList):
         self.eventsList = eventsList
@@ -284,17 +291,22 @@ class GoblinMgr():
                 for goblin in self.goblinsList:
                     goblin.panCam(self.levelState)
                 self.reset()
+            else:
+                for goblin in self.goblinsList:
+                    goblin.panCam(self.levelState)
+                self.reset()
         elif panDirection == 'Down':
             if currentState == GOBLIN_UPPER:
                 self.levelState = GOBLIN_LOWER
                 for goblin in self.goblinsList:
                     goblin.panCam(self.levelState)
                 self.reset()
-            if currentState == CITY_LOWER:
-                self.levelState = GOBLIN_UPPER
+            else:
                 for goblin in self.goblinsList:
                     goblin.panCam(self.levelState)
                 self.reset()
+
+
 
     def draw(self):
         for goblin in self.goblinsList:

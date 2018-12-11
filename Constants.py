@@ -31,6 +31,8 @@ BG_SPLASH = 'images/background_splash.png'
 SPRITESHEET = 'images/spritesheet.png'
 SPRITESHEET_PLAYER = 'images/spritesheet_player.png'
 SPRITESHEET_GOBLINS = 'images/spritesheet_goblins.png'
+SPRITESHEET_VILLAGERS = 'images/spritesheet_villagers.png'
+
 
 #LEVELS
 IMAGE_LEVEL_1 = 'images/Level1_BG.png'
