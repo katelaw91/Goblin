@@ -1,6 +1,7 @@
 #CONSTANTS
 # GAME OPTIONS/SETTINGS
 import pygame
+import random
 
 #GAME
 TITLE = "Goblin"
@@ -34,6 +35,7 @@ SPRITESHEET_GOBLINS = 'images/spritesheet_goblins.png'
 SPRITESHEET_VILLAGERS = 'images/spritesheet_villagers.png'
 
 
+
 #LEVELS
 IMAGE_LEVEL_1 = 'images/Level1_BG.png'
 IMAGE_LEVEL_2 = 'images/Level2_BG.png'
@@ -57,9 +59,13 @@ IMAGE_COLLISION_MAP_2 = 'images/ColMap_Lvl2.png'
 
 #MUSIC
 MUSIC_SPLASH = 'sounds/ForgottenVictory.ogg'
-MUSIC_GOBLINS = 'sounds/PPM-Emotional-Introspection.mp3'
-MUSIC_VILLAGERS = 'sounds/Town-Square.mp3'
+MUSIC_GOBLINS = 'sounds/PPM-Emotional-Introspection.wav'
+MUSIC_VILLAGERS = 'sounds/Town-Square.wav'
 MUSIC_HERO = 'sounds/Young-Heroes.mp3'
+MUSIC_TRANSITION = 'sounds/Mountainside_Looping.wav'
+AMBIENCE_GOBLIN = 'sounds/ambience1.wav'
+AMBIENCE_WATERFALL = 'sounds/waterfall1.wav'
+
 
 #PLATER PHYSICS
 PLAYER_ACC = 0.3
@@ -78,6 +84,9 @@ FALLING = 'falling'
 LEFT = 'left'
 RIGHT = 'right'
 ATTACKING = 'attacking'
+
+#NPC STATES
+GOB_SPEED = random.choice([.5,.6, .7, .8])
 
 #LEVEL STATES
 GOBLIN_LOWER = 'goblinlower'

@@ -45,6 +45,11 @@ class ScenePlay(SceneManager.Scene):
         pygame.mixer.music.stop()
         self.window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.mixer.music.load(MUSIC_GOBLINS)
+        pygame.mixer.Channel(1).play(pygame.mixer.Sound(AMBIENCE_GOBLIN), -1)
+        pygame.mixer.Channel(2).play(pygame.mixer.Sound(AMBIENCE_WATERFALL),-1)
+        pygame.mixer.Channel(1).set_volume(0.5)
+        pygame.mixer.Channel(2).set_volume(0.5)
+
         pygame.display.update()
         self.dingSound = pygame.mixer.Sound('sounds/ding.wav')
         self.gameOverSound = pygame.mixer.Sound('sounds/lose sound 1_0.wav')
@@ -76,7 +81,6 @@ class ScenePlay(SceneManager.Scene):
 
             self.playerRect = self.oPlayer.getRect()
 
-
             # Check if the player collides with goblins
             if self.oGoblinMgr.hasPlayerHitGoblin(self.playerRect):
                 pass
@@ -101,18 +105,26 @@ class ScenePlay(SceneManager.Scene):
 
         elif (self.playerY <= 0) and (self.levelState == GOBLIN_UPPER):
             self.oPlayer.panCam('Up')
+            self.oGoblinMgr.panCam('Up', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_3)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_3)
             self.levelState = CITY_LOWER
+            pygame.mixer.Channel(1).play(pygame.mixer.Sound(MUSIC_TRANSITION), -1)
+            pygame.mixer.music.stop()
+
 
         elif (self.playerY <= 0) and (self.levelState == CITY_LOWER):
             self.oPlayer.panCam('Up')
+            self.oGoblinMgr.panCam('Up', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_4)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_4)
             self.levelState = CITY_UPPER
+            pygame.mixer.Channel(1).play(pygame.mixer.Sound(MUSIC_VILLAGERS), -1)
+
 
         elif (self.playerY <= 0) and (self.levelState == CITY_UPPER):
             self.oPlayer.panCam('Up')
+            self.oGoblinMgr.panCam('Up', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_5)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_5)
             self.levelState = LEVEL_END
@@ -122,22 +134,32 @@ class ScenePlay(SceneManager.Scene):
         if (self.playerY > WINDOW_HEIGHT) and (self.levelState == GOBLIN_UPPER):
             self.oPlayer.panCam('Down')
             self.oGoblinMgr.panCam('Down', self.levelState)
+            self.oGoblinMgr.panCam('Down', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_1)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_1)
             self.levelState = GOBLIN_LOWER
         elif (self.playerY > WINDOW_HEIGHT) and (self.levelState == CITY_LOWER):
             self.oPlayer.panCam('Down')
             self.oGoblinMgr.panCam('Down', self.levelState)
+            self.oGoblinMgr.panCam('Down', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_2)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_2)
             self.levelState = GOBLIN_UPPER
+            pygame.mixer.Channel(1).play(pygame.mixer.Sound(AMBIENCE_GOBLIN), -1)
+            pygame.mixer.music.play()
+
+
         elif (self.playerY > WINDOW_HEIGHT) and (self.levelState == CITY_UPPER):
             self.oPlayer.panCam('Down')
+            self.oGoblinMgr.panCam('Down', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_3)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_3)
             self.levelState = CITY_LOWER
+            pygame.mixer.Channel(1).play(pygame.mixer.Sound(MUSIC_TRANSITION), -1)
+
         elif (self.playerY > WINDOW_HEIGHT) and (self.levelState == LEVEL_END):
             self.oPlayer.panCam('Down')
+            self.oGoblinMgr.panCam('Down', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_4)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_4)
             self.levelState = CITY_UPPER

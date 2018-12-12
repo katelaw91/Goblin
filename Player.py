@@ -221,6 +221,9 @@ class Player():
                 if event.key == pygame.K_SPACE:
                     if self.collision == True:
                         self.jump()
+                elif event.key == pygame.K_UP:
+                    if self.collision == True:
+                        self.jump()
                 elif event.key == pygame.K_RETURN:
                     if self.interact == True:
                         pass
@@ -246,11 +249,11 @@ class Player():
         if self.direction == 'Up':
             if (self.pos.y <= 0) and (self.levelState == GOBLIN_LOWER):
                 self.collision_map = pygame.image.load(CM_LEVEL_2)
-                self.pos.y = WINDOW_HEIGHT - 50
+                self.pos.y = 394
                 self.levelState = GOBLIN_UPPER
             elif (self.pos.y <= 0) and (self.levelState == GOBLIN_UPPER):
                 self.collision_map = pygame.image.load(CM_LEVEL_3)
-                self.pos.y = WINDOW_HEIGHT - 50
+                self.pos.y = 380
                 self.levelState = CITY_LOWER
             elif (self.pos.y <= 0) and (self.levelState == CITY_LOWER):
                 self.collision_map = pygame.image.load(CM_LEVEL_4)
@@ -265,11 +268,11 @@ class Player():
         else:
             if (self.pos.y > WINDOW_HEIGHT) and (self.levelState == GOBLIN_UPPER):
                 self.collision_map = pygame.image.load(CM_LEVEL_1)
-                self.pos.y = 50
+                self.pos.y = 198
                 self.levelState = GOBLIN_LOWER
             elif (self.pos.y > WINDOW_HEIGHT) and (self.levelState == CITY_LOWER):
                 self.collision_map = pygame.image.load(CM_LEVEL_2)
-                self.pos.y = 50
+                self.pos.y = 160
                 self.levelState = GOBLIN_UPPER
             elif (self.pos.y > WINDOW_HEIGHT) and (self.levelState == CITY_UPPER):
                 self.collision_map = pygame.image.load(CM_LEVEL_3)
@@ -291,5 +294,3 @@ class Player():
 
     def dying(self,keys):
         pass
-\
-

@@ -3,8 +3,28 @@
   <component name="ChangeListManager">
     <list default="true" id="b5180d09-71a5-46b3-bc1c-645d4c883201" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/Constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Goblins.py" beforeDir="false" afterPath="$PROJECT_DIR$/Goblins.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level1_BG.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level1_BG.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level1_CM.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level1_CM.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level1_GLO.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level1_GLO.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level2_BG.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level2_BG.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level2_CM.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level2_CM.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level2_GLO.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level2_GLO.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level3_BG.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level3_BG.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level3_CM.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level3_CM.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level3_GLO.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level3_GLO.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level4_BG.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level4_BG.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level4_CM.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level4_CM.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level4_GLO.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level4_GLO.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level5_BG.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level5_BG.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level5_CM.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level5_CM.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Level5_GLO.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Level5_GLO.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/atmos_overlay.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/atmos_overlay.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/background_splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/background_splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/logo_goblin.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/logo_goblin.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/spritesheet_goblins.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/spritesheet_goblins.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/spritesheet_player.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/spritesheet_player.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/Player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ScenePlay.py" beforeDir="false" afterPath="$PROJECT_DIR$/ScenePlay.py" afterDir="false" />
     </list>
@@ -18,14 +38,14 @@
     <session id="399137220">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="14" />
+          <entry key="project.closed" value="15" />
           <entry key="project.open.time.0" value="2" />
-          <entry key="project.open.time.2" value="5" />
-          <entry key="project.open.time.3" value="3" />
+          <entry key="project.open.time.2" value="6" />
+          <entry key="project.open.time.3" value="4" />
           <entry key="project.open.time.4" value="2" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.52" value="1" />
-          <entry key="project.opened" value="14" />
+          <entry key="project.opened" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -44,45 +64,47 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Sprites" value="357" />
-          <entry key="py" value="30901" />
+          <entry key="py" value="32817" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="31258" />
+          <entry key="Python" value="33174" />
         </counts>
       </usages-collector>
     </session>
     <session id="1894245210">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="7" />
+          <entry key="project.closed" value="8" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.13" value="1" />
-          <entry key="project.open.time.15" value="2" />
+          <entry key="project.open.time.15" value="3" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="9469" />
+          <entry key="py" value="10721" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="9469" />
+          <entry key="Python" value="10721" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="7" />
+          <entry key="png" value="1" />
+          <entry key="py" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="7" />
+          <entry key="Image" value="1" />
+          <entry key="Python" value="10" />
         </counts>
       </usages-collector>
     </session>
@@ -92,21 +114,16 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+            <state relative-caret-position="51">
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Images/Level2_CM.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Villagers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="187">
               <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
               <folding>
                 <element signature="e#13#26#0" expanded="true" />
@@ -118,17 +135,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Constants.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pygwidgets.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="2174" selection-start-line="2174" selection-end-line="2174" />
+            <state relative-caret-position="51">
+              <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+              <folding>
+                <element signature="e#35#48#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -136,7 +147,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SceneGameOver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="357">
               <caret line="21" column="100" selection-start-line="21" selection-start-column="69" selection-end-line="21" selection-end-column="100" />
               <folding>
                 <element signature="e#32#45#0" expanded="true" />
@@ -148,32 +159,51 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ScenePlay.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-809">
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            <state relative-caret-position="509">
+              <caret line="158" selection-start-line="158" selection-end-line="158" />
               <folding>
-                <marker date="1544508414000" expanded="true" signature="5844:5853" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Player.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1342">
-              <caret line="172" column="41" selection-start-line="172" selection-start-column="41" selection-end-line="172" selection-end-column="41" />
-              <folding>
-                <element signature="e#11#24#0" expanded="true" />
+                <element signature="e#409#422#0" expanded="true" />
+                <marker date="1544576372000" expanded="true" signature="6923:6932" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Player.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="30" selection-start-line="30" selection-end-line="31" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Goblins.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="305" column="50" lean-forward="true" selection-start-line="305" selection-start-column="50" selection-end-line="305" selection-end-column="50" />
+            <state relative-caret-position="1017">
+              <caret line="153" column="32" selection-start-line="153" selection-start-column="25" selection-end-line="153" selection-end-column="32" />
+              <folding>
+                <marker date="1544582772000" expanded="true" signature="10421:10546" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pyghelpers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pygwidgets.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="600">
+              <caret line="2182" selection-start-line="2182" selection-end-line="2182" />
             </state>
           </provider>
         </entry>
@@ -182,36 +212,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>enter</find>
-      <find>width</find>
-      <find>goodie</find>
-      <find>bottom</find>
-      <find>BADDIE</find>
-      <find>sceneplay</find>
-      <find>setemp</find>
-      <find>bottom_rect</find>
-      <find>setPos</find>
-      <find>draw</find>
-      <find>colli</find>
-      <find>has</find>
-      <find>try</find>
       <find>playerRect</find>
       <find>pygame</find>
       <find>DisplayText</find>
       <find>image</find>
       <find>maxX</find>
-      <find>state</find>
       <find>text</find>
       <find>setV</find>
       <find>chooseA</find>
       <find>IDLING</find>
-      <find>print</find>
       <find>levelState</find>
       <find>level_bottom</find>
       <find>direction</find>
       <find>GOBLIN_LOWER</find>
       <find>inflate</find>
       <find>height</find>
+      <find>hide</find>
+      <find>visible</find>
+      <find>time</find>
+      <find>Ttime</find>
+      <find>Image</find>
+      <find>music</find>
+      <find>timer</find>
+      <find>mixer</find>
+      <find>color_</find>
+      <find>print</find>
+      <find>state</find>
+      <find>idleS</find>
+      <find>self.pos.x</find>
+      <find>self.state =</find>
+      <find>WALKING</find>
     </findStrings>
     <replaceStrings>
       <replace>Goblin</replace>
@@ -240,22 +270,23 @@
         <option value="$PROJECT_DIR$/SceneHighScores.py" />
         <option value="$PROJECT_DIR$/SceneControls.py" />
         <option value="$PROJECT_DIR$/SceneSplash.py" />
-        <option value="$PROJECT_DIR$/Main.py" />
         <option value="$PROJECT_DIR$/Sprites" />
         <option value="$PROJECT_DIR$/Villagers.py" />
         <option value="$PROJECT_DIR$/SceneGameOver.py" />
+        <option value="$PROJECT_DIR$/pyghelpers.py" />
+        <option value="$PROJECT_DIR$/pygwidgets.py" />
+        <option value="$PROJECT_DIR$/Player.py" />
+        <option value="$PROJECT_DIR$/Main.py" />
         <option value="$PROJECT_DIR$/ScenePlay.py" />
         <option value="$PROJECT_DIR$/Constants.py" />
-        <option value="$PROJECT_DIR$/Player.py" />
         <option value="$PROJECT_DIR$/Goblins.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="408" />
-    <option name="y" value="100" />
-    <option name="width" value="1133" />
-    <option name="height" value="929" />
+    <option name="y" value="41" />
+    <option name="width" value="2560" />
+    <option name="height" value="1337" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -270,11 +301,6 @@
             <path>
               <item name="Goblin" type="b2602c69:ProjectViewProjectNode" />
               <item name="Goblin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Goblin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Goblin" type="462c0819:PsiDirectoryNode" />
-              <item name="Images" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -441,8 +467,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Goblins" />
         <item itemvalue="Python.Player" />
+        <item itemvalue="Python.Goblins" />
         <item itemvalue="Python.ScenePlay" />
         <item itemvalue="Python.SceneGameOver" />
         <item itemvalue="Python.Constants" />
@@ -476,7 +502,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" weight="0.18071654" />
+      <window_info content_ui="combo" id="Project" order="1" weight="0.18018967" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" weight="0.32914925" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" weight="0.3298647" />
@@ -484,7 +510,7 @@
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" />
       <window_info anchor="bottom" id="Version Control" order="5" weight="0.32914925" />
-      <window_info anchor="bottom" id="Run" order="6" weight="0.24249166" />
+      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.2413793" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.3971079" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -495,7 +521,7 @@
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.18071654" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.18018967" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" weight="0.32914925" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" weight="0.3298647" />
@@ -503,7 +529,7 @@
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" />
       <window_info anchor="bottom" id="Version Control" order="5" weight="0.32914925" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.24249166" />
+      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.2413793" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.3971079" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -548,12 +574,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Images/Player.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Images/map1_collision.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Images/Player.png" />
+    <entry file="file://$PROJECT_DIR$/Images/map1_collision.png" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/random.py" />
     <entry file="file://$PROJECT_DIR$/SceneManager.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -569,9 +591,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Images/Level2Map.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Images/Level2Map.png" />
     <entry file="file://$PROJECT_DIR$/Sprites.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -579,29 +599,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pygwidgets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="2174" selection-start-line="2174" selection-end-line="2174" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SceneGameOver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="21" column="100" selection-start-line="21" selection-start-column="69" selection-end-line="21" selection-end-column="100" />
-          <folding>
-            <element signature="e#32#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Images/Level2_CM.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Images/spritesheet_goblins.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Villagers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
+        <state relative-caret-position="187">
           <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
           <folding>
             <element signature="e#13#26#0" expanded="true" />
@@ -609,43 +615,71 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Constants.py">
+    <entry file="file://$PROJECT_DIR$/SceneGameOver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Goblins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="305" column="50" lean-forward="true" selection-start-line="305" selection-start-column="50" selection-end-line="305" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+        <state relative-caret-position="357">
+          <caret line="21" column="100" selection-start-line="21" selection-start-column="69" selection-end-line="21" selection-end-column="100" />
+          <folding>
+            <element signature="e#32#45#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ScenePlay.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-809">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        <state relative-caret-position="509">
+          <caret line="158" selection-start-line="158" selection-end-line="158" />
           <folding>
-            <marker date="1544508414000" expanded="true" signature="5844:5853" ph="..." />
+            <element signature="e#409#422#0" expanded="true" />
+            <marker date="1544576372000" expanded="true" signature="6923:6932" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+          <folding>
+            <element signature="e#35#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pygwidgets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="2182" selection-start-line="2182" selection-end-line="2182" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyghelpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1342">
-          <caret line="172" column="41" selection-start-line="172" selection-start-column="41" selection-end-line="172" selection-end-column="41" />
+        <state relative-caret-position="170">
+          <caret line="30" selection-start-line="30" selection-end-line="31" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Goblins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1017">
+          <caret line="153" column="32" selection-start-line="153" selection-start-column="25" selection-end-line="153" selection-end-column="32" />
           <folding>
-            <element signature="e#11#24#0" expanded="true" />
+            <marker date="1544582772000" expanded="true" signature="10421:10546" ph="..." />
           </folding>
         </state>
       </provider>
