@@ -28,7 +28,10 @@ class ScenePlay(SceneManager.Scene):
         # Save window and sceneKey in instance variables
         self.window = window
         self.sceneKey = sceneKey
-        self.playBackground = pygwidgets.Image(self.window, (0, -320), IMAGE_LEVEL_1)
+        self.playBackground = pygwidgets.Image(self.window, (0, OFFSET), IMAGE_LEVEL_1)
+        self.atmosphere = pygwidgets.Image(self.window, (0,0), ATMOSPHERE)
+        self.glow = pygwidgets.Image(self.window, (0, OFFSET), GLOW)
+        #y -320
 
         #instantiate objects
         self.oVillagerMgr = VillagerMgr(self.window)
@@ -38,14 +41,6 @@ class ScenePlay(SceneManager.Scene):
         self.deathCount = 0
         self.backgroundMusic = True
 
-        #instantiate collision platforms
-        self.collision_map = pygame.Surface((WINDOW_WIDTH,WINDOW_HEIGHT))
-        self.HIT = BLACK
-        self.MISS = WHITE
-        self.collision_map.blit(pygame.image.load(IMAGE_COLLISION_MAP), (0,-320))
-
-
-        self.collision = False
 
     def enter(self, data):  # no data passed in
         pygame.mixer.music.stop()
@@ -61,6 +56,7 @@ class ScenePlay(SceneManager.Scene):
         self.deathCount = 0
 
         # Tell the managers to reset themselves
+        self.oPlayer.reset()
         self.oVillagerMgr.reset()
         self.oGoblinMgr.reset()
 
@@ -70,56 +66,54 @@ class ScenePlay(SceneManager.Scene):
 
 
     def handleInputs(self, eventsList, keyPressedList):
-        for event in eventsList:
-            pass
-        #add keybinding here
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
-            self.oPlayer.setpos(keys)
-        if keys[pygame.K_SPACE]:
-            self.oPlayer.setFrame(keys)
-
-
-
+        self.oPlayer.handleInputs(eventsList, keyPressedList)
+        self.oGoblinMgr.handleInputs(eventsList, keyPressedList)
 
     def update(self):
         if self.playing:
-            playerRect = self.oPlayer.update()  # move the player
-            self.posX = self.oPlayer.getPos('x')
-            self.posY = self.oPlayer.getPos('y')
-            self.pos = self.oPlayer.getPos('z')
-            #determine collision based on pixel color from collision map
-            self.color = self.collision_map.get_at(self.pos)
-            for pixel in range(self.posY, WINDOW_HEIGHT):
-                if self.color == self.HIT:
-                    self.collision = True
-                    self.oPlayer.setVel(collision)
-                    break
-
-
-            # Tell the Baddie mgr to move all the baddies
-            # It returns the number of baddies that fell off the bottom
-            nDeaths = self.oVillagerMgr.update()
-            self.deathCount = self.deathCount + nDeaths
-    
-            # Tell the Goodie mgr to move any goodies
+            self.playerY = self.oPlayer.update()  # move the player
+            self.oVillagerMgr.update()
             self.oGoblinMgr.update()
 
-            # Check if the player has hit any of the goodies
-            #print('In ScenePlay, self.oPlayer', self.oPlayer)
-            if self.oGoblinMgr.hasPlayerHitGoblin(self.oPlayer):
+            self.playerRect = self.oPlayer.getRect()
+
+
+            # Check if the player collides with goblins
+            if self.oGoblinMgr.hasPlayerHitGoblin(self.playerRect):
                 pass
+
                 #update Player about collision so it can interact
 
             # Check if the player has hit any of the baddies
-            if self.oVillagerMgr.hasPlayerHitVillager(playerRect):
+            '''if self.oVillagerMgr.hasPlayerHitVillager(playerRect):
                 pass
-                #update Player about collision so it can attack
+                #update Player about collision so it can attack'''
+
+            #self.collision = self.oGoblinMgr.detectCollision(self.playerRect)
+
+
+        #PAN CAMERA UP
+        if self.playerY <= WINDOW_HEIGHT/4:
+            self.oPlayer.panCam('Up')
+            self.playBackground = pygwidgets.Image(self.window, (0, OFFSET + 350), IMAGE_LEVEL_1)
+            #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
+            self.glow = pygwidgets.Image(self.window, (0, OFFSET + 350), GLOW)
+            self.oGoblinMgr.panCam('Up')
+
+        #PAN CAMERA DOWN
+        if self.playerY > WINDOW_HEIGHT:
+            self.oPlayer.panCam('Down')
+            self.playBackground = pygwidgets.Image(self.window, (0, OFFSET), IMAGE_LEVEL_1)
+            #self.atmosphere = pygwidgets.Image(self.window, (0,0 + 300), ATMOSPHERE)
+            self.glow = pygwidgets.Image(self.window, (0, OFFSET), GLOW)
+            self.oGoblinMgr.panCam('Down')
     
     def draw(self):
         # Draw everything
         self.window.fill(BLACK)
         self.playBackground.draw()
+        self.atmosphere.draw()
+        self.glow.draw()
     
         # Tell the managers to draw all the baddies & goodies
         self.oVillagerMgr.draw()

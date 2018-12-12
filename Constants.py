@@ -5,7 +5,9 @@ import pygame
 #GAME
 TITLE = "Goblin"
 WINDOW_WIDTH = 540
-WINDOW_HEIGHT = 640
+WINDOW_HEIGHT = 600
+OFFSET = -400
+#640
 SPLASH_WINDOW_WIDTH = 540
 SPLASH_WINDOW_HEIGHT = 540
 GAME_HEIGHT = 500
@@ -27,24 +29,29 @@ SCENE_CONTROLS = 'scene controls'
 LOGO = 'images/logo_goblin.png'
 BG_SPLASH = 'images/background_splash.png'
 SPRITESHEET = 'Insert Spritesheet Name'
-IMAGE_LEVEL_1 = 'images/map1_lines.png'
-IMAGE_COLLISION_MAP = 'images/map1_collision.jpg'
+IMAGE_LEVEL_1 = 'images/Level1Map.png'
+ATMOSPHERE = 'images/atmos_overlay.png'
+GLOW = 'images/glow_overlay.png'
+#IMAGE_LEVEL_1 = 'images/map1_lines.png'
+IMAGE_COLLISION_MAP = 'images/ColMap.png'
 MUSIC_SPLASH = 'sounds/ForgottenVictory.ogg'
-MUSIC_GOBLINS = 'sounds/Next to You.mp3'
+MUSIC_GOBLINS = 'sounds/PPM-Emotional-Introspection.mp3'
 MUSIC_VILLAGERS = 'sounds/Town-Square.mp3'
 MUSIC_HERO = 'sounds/Young-Heroes.mp3'
 
 #PLATER PHYSICS
-PLAYER_ACC = 0.5
-PLAYER_FRICTION = -0.12
-PLAYER_GRAVITY = 0.4
-PLAYER_JUMP = 15
+PLAYER_ACC = 0.4
+PLAYER_FRICTION = -0.13
+PLAYER_GRAVITY = 0.45
+PLAYER_JUMP = 8.5
 
 #PLAYER STATES
-STAND = 'stand'
-WALK = 'walk'
+WALKLEFT = 'walkleft'
+WALKRIGHT = 'walkright'
 JUMP = 'jump'
+DEATH = 'death'
 FALL = 'fall'
+
 
 #NPC
 LEFT = 'left'
@@ -69,3 +76,4 @@ DARKVIOLET = (51,0,51)
 DARKGREEN = (47,79,79)
 DUSTYPURPLE = (72,61,139)
 BGCOLOR = (93,71,139)
+HIT = (0, 0, 0, 255)
