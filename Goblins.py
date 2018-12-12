@@ -103,7 +103,7 @@ class Goblin():
         self.interact = False
 
 
-    def update(self, currentLevelState, setNewCollision):
+    def update(self):
 
         # motion
         self.acc.x += self.vel.x * PLAYER_FRICTION  # apply friction
@@ -182,25 +182,6 @@ class Goblin():
                 if self.state == IDLING:
                     self.pos.x = self.pos.x'''
 
-        if setNewCollision:
-            self.setCM = True
-
-        if self.setCM == True:
-            if currentLevelState == GOBLIN_LOWER:
-                self.collision_map = pygame.image.load(CM_LEVEL_1)
-                self.setCM = False
-            elif currentLevelState == GOBLIN_UPPER:
-                self.collision_map = pygame.image.load(CM_LEVEL_2)
-                self.setCM = False
-            elif currentLevelState == CITY_LOWER:
-                self.collision_map = pygame.image.load(CM_LEVEL_3)
-                self.setCM = False
-            elif currentLevelState == CITY_UPPER:
-                self.collision_map = pygame.image.load(CM_LEVEL_4)
-                self.setCM = False
-            elif currentLevelState == LEVEL_END:
-                self.collision_map = pygame.image.load(CM_LEVEL_5)
-                self.setCM = False
 
         # determine collision based on pixel color from collision map
         try:
@@ -342,7 +323,7 @@ class GoblinMgr():
 
     def update(self):
         for goblin in self.goblinsList:
-            goblin.update(self.levelState,self.setNewCM)
+            goblin.update()
 
     def handleInputs(self, eventsList, keyPressedList):
         self.eventsList = eventsList
@@ -351,37 +332,40 @@ class GoblinMgr():
             goblin.handleInputs(self.eventsList, self.keyPressedList)
 
     def panCam(self, panDirection, currentState):
-        self.setNewCM = True
         if panDirection == 'Up':
             if currentState == GOBLIN_LOWER:
                 self.levelState = GOBLIN_UPPER
-                for goblin in self.goblinsList:
-                    goblin.panCam(self.levelState)
-            if currentState == GOBLIN_UPPER:
-                self.levelState = CITY_LOWER
-                for goblin in self.goblinsList:
-                    goblin.panCam(self.levelState)
-
-            else:
+                self.oGoblin_Bob.panCam(self.levelState)
                 self.reset()
-                for goblin in self.goblinsList:
-                    goblin.panCam(self.levelState)
-            self.reset()
-
-
+            elif currentState == GOBLIN_UPPER:
+                self.levelState = CITY_LOWER
+                self.oGoblin_Bob.panCam(self.levelState)
+                self.reset()
+            elif currentState == CITY_LOWER:
+                self.levelState = CITY_UPPER
+                self.oGoblin_Bob.panCam(self.levelState)
+                self.reset()
+            elif currentState == CITY_UPPER:
+                self.levelState = LEVEL_END
+                self.oGoblin_Bob.panCam(self.levelState)
+                self.reset()
         elif panDirection == 'Down':
             if currentState == GOBLIN_UPPER:
                 self.levelState = GOBLIN_LOWER
+                self.oGoblin_Bob.panCam(self.levelState)
                 self.reset()
-                for goblin in self.goblinsList:
-                    goblin.panCam(self.levelState)
-
             elif currentState == CITY_LOWER:
                 self.levelState = GOBLIN_UPPER
-                for goblin in self.goblinsList:
-                    goblin.panCam(self.levelState)
+                self.oGoblin_Bob.panCam(self.levelState)
                 self.reset()
-        self.reset()
+            elif currentState == CITY_UPPER:
+                self.levelState = CITY_LOWER
+                self.oGoblin_Bob.panCam(self.levelState)
+                self.reset()
+            elif currentState == LEVEL_END:
+                self.levelState = CITY_UPPER
+                self.oGoblin_Bob.panCam(self.levelState)
+                self.reset()
 
 
 
