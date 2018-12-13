@@ -1,12 +1,13 @@
 #CONSTANTS
 # GAME OPTIONS/SETTINGS
 import pygame
+import random
 
 #GAME
 TITLE = "Goblin"
 WINDOW_WIDTH = 540
-WINDOW_HEIGHT = 600
-OFFSET = -400
+WINDOW_HEIGHT = 590
+OFFSET = 0
 #640
 SPLASH_WINDOW_WIDTH = 540
 SPLASH_WINDOW_HEIGHT = 540
@@ -28,35 +29,71 @@ SCENE_CONTROLS = 'scene controls'
 #LOAD
 LOGO = 'images/logo_goblin.png'
 BG_SPLASH = 'images/background_splash.png'
-SPRITESHEET = 'Insert Spritesheet Name'
-IMAGE_LEVEL_1 = 'images/Level1Map.png'
+SPRITESHEET = 'images/spritesheet.png'
+SPRITESHEET_PLAYER = 'images/spritesheet_player.png'
+SPRITESHEET_GOBLINS = 'images/spritesheet_goblins.png'
+SPRITESHEET_VILLAGERS = 'images/spritesheet_villagers.png'
+
+
+
+#LEVELS
+IMAGE_LEVEL_1 = 'images/Level1_BG.png'
+IMAGE_LEVEL_2 = 'images/Level2_BG.png'
+IMAGE_LEVEL_3 = 'images/Level3_BG.png'
+IMAGE_LEVEL_4 = 'images/Level4_BG.png'
+IMAGE_LEVEL_5 = 'images/Level5_BG.png'
+GLOW_LEVEL_1 = 'images/Level1_GLO.png'
+GLOW_LEVEL_2 = 'images/Level2_GLO.png'
+GLOW_LEVEL_3 = 'images/Level3_GLO.png'
+GLOW_LEVEL_4 = 'images/Level4_GLO.png'
+GLOW_LEVEL_5 = 'images/Level5_GLO.png'
+CM_LEVEL_1 = 'images/Level1_CM.png'
+CM_LEVEL_2 = 'images/Level2_CM.png'
+CM_LEVEL_3 = 'images/Level3_CM.png'
+CM_LEVEL_4 = 'images/Level4_CM.png'
+CM_LEVEL_5 = 'images/Level5_CM.png'
+VINES = 'images/vines_overlay.png'
 ATMOSPHERE = 'images/atmos_overlay.png'
-GLOW = 'images/glow_overlay.png'
-#IMAGE_LEVEL_1 = 'images/map1_lines.png'
-IMAGE_COLLISION_MAP = 'images/ColMap.png'
+
+IMAGE_COLLISION_MAP_2 = 'images/ColMap_Lvl2.png'
+
+#MUSIC
 MUSIC_SPLASH = 'sounds/ForgottenVictory.ogg'
-MUSIC_GOBLINS = 'sounds/PPM-Emotional-Introspection.mp3'
-MUSIC_VILLAGERS = 'sounds/Town-Square.mp3'
+MUSIC_GOBLINS = 'sounds/PPM-Emotional-Introspection.wav'
+MUSIC_VILLAGERS = 'sounds/Town-Square.wav'
 MUSIC_HERO = 'sounds/Young-Heroes.mp3'
+MUSIC_TRANSITION = 'sounds/Mountainside_Looping.wav'
+AMBIENCE_GOBLIN = 'sounds/ambience1.wav'
+AMBIENCE_WATERFALL = 'sounds/waterfall1.wav'
+
 
 #PLATER PHYSICS
-PLAYER_ACC = 0.4
+PLAYER_ACC = 0.3
 PLAYER_FRICTION = -0.13
 PLAYER_GRAVITY = 0.45
 PLAYER_JUMP = 8.5
 
 #PLAYER STATES
-WALKLEFT = 'walkleft'
-WALKRIGHT = 'walkright'
-JUMP = 'jump'
-DEATH = 'death'
-FALL = 'fall'
-
-
-#NPC
+IDLING ='idling'
+WALKING_LEFT = 'walkleft'
+WALKING_RIGHT = 'walkright'
+WALKING = 'walking'
+JUMPING = 'jumping'
+DYING = 'dying'
+FALLING = 'falling'
 LEFT = 'left'
 RIGHT = 'right'
-DEAD = 'dead'
+ATTACKING = 'attacking'
+
+#NPC STATES
+GOB_SPEED = random.choice([.5,.6, .7, .8])
+
+#LEVEL STATES
+GOBLIN_LOWER = 'goblinlower'
+GOBLIN_UPPER = 'goblinupper'
+CITY_LOWER = 'citylower'
+CITY_UPPER = 'cityupper'
+LEVEL_END = 'levelend'
 
 
 #COLORS
