@@ -3,6 +3,7 @@ import pygame
 import random
 import pygwidgets
 import pyghelpers
+from fontTools import *
 from Constants import *
 
 class Goblin():
@@ -11,22 +12,23 @@ class Goblin():
         # pass in position and walking direction for each NPC
         self.window = window
         self.text = text
-        self.font_name = 'EnterCommand'
+        #self.font_name = 'cweblarge'
+        #self.font_name = 'pixelatedregular'
+        #self.font_name = 'pixeledregular'
+        self.font_name = '04b03'
         self.direction = random.choice([LEFT, RIGHT])
         self.collision = False
-        self.now = pygame.time.get_ticks()
         self.CM = 0
-        self.checkCM = 0
 
         self.range = random.randrange(0, 15)
         self.pacing = 0
         self.paceRight = 0
         self.paceLeft = 100
         self.randomPace = random.randrange(0, 2)
-        self.idleAmt = random.choice([100, 200, 300, 400, 500, 600, 700,800,900,1000])
+        '''self.idleAmt = random.choice([100, 200, 300, 400, 500, 600, 700,800,900,1000])
         self.idleTimer = 0
         self.walkAmt = random.choice([100, 200, 300, 400, 500, 600, 100, 200, 300])
-        self.walkTimer = 0
+        self.walkTimer = 0'''
         self.state = WALKING
 
         #state/animation variables
@@ -87,9 +89,9 @@ class Goblin():
         self.acc = VEC(0, 0)
 
         self.textBox = pygwidgets.DisplayText(window,(self.pos.x + 3 ,self.pos.y + 15),"",fontName=self.font_name,\
-                                              fontSize=12, textColor = WHITE)
+                                              fontSize=15, textColor = WHITE)
         self.shadow = pygwidgets.DisplayText(window, (self.pos.x + 0.5, self.pos.y + 17), "", fontName=self.font_name, \
-                                              fontSize=12, textColor=BLACK)
+                                              fontSize=15, textColor=BLACK)
 
         # instantiate collision platforms
         self.collision_map = pygame.image.load(CM_LEVEL_1)
@@ -113,12 +115,9 @@ class Goblin():
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
         if self.CM != flag:
-            print("they aren't equal")
             if flag == 0:
-                print("loaded lvl 1")
                 self.collision_map = pygame.image.load(CM_LEVEL_1)
             else:
-                print("loaded lvl 2")
                 self.collision_map = pygame.image.load(CM_LEVEL_2)
             self.CM = flag
 
@@ -287,7 +286,6 @@ class GoblinMgr():
         self.window = window
         self.goblinsList = []
         self.levelState = GOBLIN_LOWER
-        self.setNewCM = False
 
         self.oGoblin_Susie = Goblin(self.window, (420, 310), 62, "Hey theree!")
         self.oGoblin_Bob = Goblin(self.window, (80,130), 31, "Out for a stroll?")

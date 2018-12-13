@@ -72,6 +72,8 @@ class ScenePlay(SceneManager.Scene):
     def handleInputs(self, eventsList, keyPressedList):
         self.oPlayer.handleInputs(eventsList, keyPressedList)
         self.oGoblinMgr.handleInputs(eventsList, keyPressedList)
+        self.oVillagersMgr.handleInputs(eventsList, keyPressedList)
+
 
     def update(self):
         if self.playing:
@@ -81,19 +83,11 @@ class ScenePlay(SceneManager.Scene):
 
             self.playerRect = self.oPlayer.getRect()
 
-            # Check if the player collides with goblins
+            # Check if the player collides with npcs
             if self.oGoblinMgr.hasPlayerHitGoblin(self.playerRect):
                 pass
             if self.oVillagersMgr.hasPlayerHitVillager(self.playerRect):
                 pass
-                #update Player about collision so it can interact
-
-            # Check if the player has hit any of the baddies
-            '''if self.oVillagersMgr.hasPlayerHitVillagers(playerRect):
-                pass
-                #update Player about collision so it can attack'''
-
-            #self.collision = self.oGoblinMgr.detectCollision(self.playerRect)
 
 
         #PAN CAMERA UP

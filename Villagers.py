@@ -10,7 +10,8 @@ class Villager():
         # pass in position and walking direction for each NPC
         self.window = window
         self.text = text
-        self.font_name = 'GothicPixels'
+        self.font_name = 'gothicpixels'
+        #self.font_name = 'pixeledenglishfont'
         self.direction = direction
         self.collision = False
         self.CM = 1
@@ -22,7 +23,7 @@ class Villager():
         self.randomPace = random.randrange(0,2)
         self.idleAmt = random.choice([100, 200,300,400,500,600,100])
         self.idleTimer = 0
-        self.state = IDLING
+        self.state = WALKING
 
         # state/animation variables
         self.currentFrame = 0  # up to number of frames in an animation
@@ -73,7 +74,7 @@ class Villager():
         self.idleSpeed = 16
         self.walkFrame_R = 0
         self.walkFrame_L = 0
-        self.walkSpeed = 14
+        self.walkSpeed = 8
         self.attackSpeed = 12
         self.attackFrame_L = 0
         self.attackFrame_R = 0
@@ -117,21 +118,15 @@ class Villager():
         self.pos += self.vel + (0.5 * self.acc)  # calculate position
 
         if self.CM != flag:
-            print("they aren't equal")
             if flag == 1:
-                print("loaded lvl 1")
                 self.collision_map = pygame.image.load(CM_LEVEL_1)
             elif flag ==2:
-                print("loaded lvl 2")
                 self.collision_map = pygame.image.load(CM_LEVEL_2)
             elif flag ==3:
-                print("loaded lvl 3")
                 self.collision_map = pygame.image.load(CM_LEVEL_3)
             elif flag ==4:
-                print("loaded lvl 4")
                 self.collision_map = pygame.image.load(CM_LEVEL_4)
             elif flag ==5:
-                print("loaded lvl 5")
                 self.collision_map = pygame.image.load(CM_LEVEL_5)
             self.CM = flag
 
@@ -155,7 +150,7 @@ class Villager():
             # if now - self.actionTimer > 2000 + random.choice([0, 2000,3000,4000,5000,6000,7000,8000,9000,10000]):
             # self.state = random.choice(self.stateList)
             # self.actionTimer = now
-        if self.state == WALKING:
+        elif self.state == WALKING:
             if self.direction == RIGHT:
                 self.image = self.walkFrames_R[int(self.walkFrame_R / self.walkSpeed)]
                 self.walkFrame_R += 1
@@ -229,7 +224,9 @@ class Villager():
         for event in eventsList:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
+                    print("pressing enter..")
                     if self.interact == True:
+                        "entered interact true condition"
                         print(self.text)
                         self.idle()
                         self.textBox.setValue(self.text)
