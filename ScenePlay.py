@@ -33,7 +33,7 @@ class ScenePlay(SceneManager.Scene):
         self.levelState = GOBLIN_LOWER
 
         #instantiate objects
-        self.oVillagerMgr = VillagerMgr(self.window)
+        self.oVillagersMgr = VillagersMgr(self.window)
         self.oGoblinMgr = GoblinMgr(self.window)
         self.oPlayer = Player(self.window)
 
@@ -61,7 +61,7 @@ class ScenePlay(SceneManager.Scene):
 
         # Tell the managers to reset themselves
         self.oPlayer.reset()
-        self.oVillagerMgr.reset()
+        self.oVillagersMgr.reset()
         self.oGoblinMgr.reset()
 
         if self.backgroundMusic:
@@ -76,7 +76,7 @@ class ScenePlay(SceneManager.Scene):
     def update(self):
         if self.playing:
             self.playerY = self.oPlayer.update()  # move the player
-            self.oVillagerMgr.update()
+            self.oVillagersMgr.update()
             self.oGoblinMgr.update()
 
             self.playerRect = self.oPlayer.getRect()
@@ -84,11 +84,12 @@ class ScenePlay(SceneManager.Scene):
             # Check if the player collides with goblins
             if self.oGoblinMgr.hasPlayerHitGoblin(self.playerRect):
                 pass
-
+            if self.oVillagersMgr.hasPlayerHitVillager(self.playerRect):
+                pass
                 #update Player about collision so it can interact
 
             # Check if the player has hit any of the baddies
-            '''if self.oVillagerMgr.hasPlayerHitVillager(playerRect):
+            '''if self.oVillagersMgr.hasPlayerHitVillagers(playerRect):
                 pass
                 #update Player about collision so it can attack'''
 
@@ -99,6 +100,7 @@ class ScenePlay(SceneManager.Scene):
         if (self.playerY <= 0) and (self.levelState == GOBLIN_LOWER):
             self.oPlayer.panCam('Up')
             self.oGoblinMgr.panCam('Up', self.levelState)
+            self.oVillagersMgr.panCam('Up', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_2)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_2)
             self.levelState = GOBLIN_UPPER
@@ -106,6 +108,7 @@ class ScenePlay(SceneManager.Scene):
         elif (self.playerY <= 0) and (self.levelState == GOBLIN_UPPER):
             self.oPlayer.panCam('Up')
             self.oGoblinMgr.panCam('Up', self.levelState)
+            self.oVillagersMgr.panCam('Up', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_3)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_3)
             self.levelState = CITY_LOWER
@@ -116,6 +119,7 @@ class ScenePlay(SceneManager.Scene):
         elif (self.playerY <= 0) and (self.levelState == CITY_LOWER):
             self.oPlayer.panCam('Up')
             self.oGoblinMgr.panCam('Up', self.levelState)
+            self.oVillagersMgr.panCam('Up', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_4)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_4)
             self.levelState = CITY_UPPER
@@ -125,6 +129,7 @@ class ScenePlay(SceneManager.Scene):
         elif (self.playerY <= 0) and (self.levelState == CITY_UPPER):
             self.oPlayer.panCam('Up')
             self.oGoblinMgr.panCam('Up', self.levelState)
+            self.oVillagersMgr.panCam('Up', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_5)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_5)
             self.levelState = LEVEL_END
@@ -134,14 +139,14 @@ class ScenePlay(SceneManager.Scene):
         if (self.playerY > WINDOW_HEIGHT) and (self.levelState == GOBLIN_UPPER):
             self.oPlayer.panCam('Down')
             self.oGoblinMgr.panCam('Down', self.levelState)
-            self.oGoblinMgr.panCam('Down', self.levelState)
+            self.oVillagersMgr.panCam('Down', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_1)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_1)
             self.levelState = GOBLIN_LOWER
         elif (self.playerY > WINDOW_HEIGHT) and (self.levelState == CITY_LOWER):
             self.oPlayer.panCam('Down')
             self.oGoblinMgr.panCam('Down', self.levelState)
-            self.oGoblinMgr.panCam('Down', self.levelState)
+            self.oVillagersMgr.panCam('Down', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_2)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_2)
             self.levelState = GOBLIN_UPPER
@@ -152,6 +157,7 @@ class ScenePlay(SceneManager.Scene):
         elif (self.playerY > WINDOW_HEIGHT) and (self.levelState == CITY_UPPER):
             self.oPlayer.panCam('Down')
             self.oGoblinMgr.panCam('Down', self.levelState)
+            self.oVillagersMgr.panCam('Down', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_3)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_3)
             self.levelState = CITY_LOWER
@@ -160,6 +166,7 @@ class ScenePlay(SceneManager.Scene):
         elif (self.playerY > WINDOW_HEIGHT) and (self.levelState == LEVEL_END):
             self.oPlayer.panCam('Down')
             self.oGoblinMgr.panCam('Down', self.levelState)
+            self.oVillagersMgr.panCam('Down', self.levelState)
             self.playBackground = pygwidgets.Image(self.window, (0, 0), IMAGE_LEVEL_4)
             self.glow = pygwidgets.Image(self.window, (0, 0), GLOW_LEVEL_4)
             self.levelState = CITY_UPPER
@@ -173,7 +180,7 @@ class ScenePlay(SceneManager.Scene):
         self.glow.draw()
     
         # Tell the managers to draw all the baddies & goodies
-        self.oVillagerMgr.draw()
+        self.oVillagersMgr.draw()
         self.oGoblinMgr.draw()
     
         # Draw the player
